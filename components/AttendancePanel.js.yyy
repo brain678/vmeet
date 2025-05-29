@@ -1,0 +1,58 @@
+import React, { useState, useRef } from "react";
+import Webcam from "react-webcam";
+import { useUser } from "@clerk/nextjs";
+
+export default function AttendancePanel({ sessionId }) {
+  const webcamRef = useRef(null);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
+  const userId = user?.id; // Clerk user ID
+
+  const captureAndVerify = async () => {
+    if (!userId) {
+      setMessage("User not identified.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const imageSrc = webcamRef.current.getScreenshot();
+      if (!imageSrc) {
+        setMessage("Could not capture image from webcam.");
+        setLoading(false);
+        return;
+      }
+      const blob = await (await fetch(imageSrc)).blob();
+
+      const formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("sessionId", sessionId);
+      formData.append("file", blob, "capture.jpg");
+
+      const res = await fetch("http://localhost:8000/verify-face", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Attendance marked successfully!");
+      } else {
+        setMessage(data.detail || "Verification failed.");
+      }
+    } catch (err) {
+      setMessage("Error: " + err.message);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <h3>Attendance Panel</h3>
+      <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+      <button onClick={captureAndVerify} disabled={loading}>
+        {loading ? "Marking..." : "Mark Attendance"}
+      </button>
+      <p>{message}</p>
+    </div>
+  );
+}

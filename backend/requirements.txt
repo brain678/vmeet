@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-dotenv
+appwrite
+opencv-python
+face_recognition
+numpy
+openpyxl
