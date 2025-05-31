@@ -60,9 +60,29 @@ const config = {
       backgroundImage: {
         hero: "url('/images/hero-background.png')",
       },
+      textShadow: {
+        sm: '0 1px 2px rgba(0, 0, 0, 0.2)',
+        DEFAULT: '0 2px 4px rgba(0, 0, 0, 0.2)',
+        lg: '0 8px 16px rgba(0, 0, 0, 0.3)',
+      },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    function ({ addUtilities, theme }: { addUtilities: Function; theme: Function }) {
+      const textShadows = theme('textShadow') as Record<string, string>;
+      const textShadowUtilities = Object.entries(textShadows).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [`.text-shadow${key === 'DEFAULT' ? '' : `-${key}`}`]: {
+            textShadow: value,
+          },
+        }),
+        {} as Record<string, { textShadow: string }>
+      );
+      addUtilities(textShadowUtilities);
+    },
+  ],
 } satisfies Config;
 
 export default config;

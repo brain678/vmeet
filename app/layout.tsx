@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Virtual_class",
   description: "Student Class App",
-  
 };
 
 export default function RootLayout({
@@ -24,15 +23,15 @@ export default function RootLayout({
         appearance={{
           layout: {
             socialButtonsVariant: "iconButton",
-           
+            shimmer: true,
           },
-          //  login styles
           variables: {
-            colorText: "#fff",
             colorPrimary: "#0E78F9",
+            colorText: "#fff",
             colorBackground: "#1C1F2E",
             colorInputBackground: "#252A41",
             colorInputText: "#fff",
+            colorTextOnPrimaryBackground: "#fff",
           },
         }}
       >

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, Form, HTTPException
+from fastapi import FastAPI, UploadFile, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 import os
@@ -90,39 +90,53 @@ async def upload_face_image(
     file: UploadFile = Form(...)
 ):
     logger.info(f"Received face image upload request for user: {userId}")
+    logger.info(f"User info - Name: {name}, Matric: {matric}, Department: {department}")
+    
     try:
         # Validate file type
         if not file.content_type.startswith('image/'):
+            logger.warning(f"Invalid file type: {file.content_type}")
             raise HTTPException(status_code=400, detail="File must be an image")
 
         # Save uploaded image temporarily
         file_path = os.path.join(UPLOAD_DIR, f"ref_{userId}.jpg")
-        logger.debug(f"Saving image to: {file_path}")
+        logger.info(f"Saving image to: {file_path}")
         
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         
         # Verify the image contains a face
-        logger.debug("Verifying face in image")
+        logger.info("Verifying face in image")
         image = face_recognition.load_image_file(file_path)
         face_locations = face_recognition.face_locations(image)
+        
         if not face_locations:
+            logger.warning("No face detected in image")
             raise HTTPException(status_code=400, detail="No face detected in the image")
+        
+        logger.info(f"Found {len(face_locations)} faces in image")
 
         # Remove old image from GridFS if exists
-        logger.debug("Checking for existing image in GridFS")
-        for old in fs.find({"filename": f"ref_{userId}.jpg"}):
-            logger.debug(f"Removing old image with id: {old._id}")
+        logger.info("Checking for existing image in GridFS")
+        old_files = list(fs.find({"filename": f"ref_{userId}.jpg"}))
+        for old in old_files:
+            logger.info(f"Removing old image with id: {old._id}")
             fs.delete(old._id)
         
         # Store new image in GridFS
-        logger.debug("Storing new image in GridFS")
+        logger.info("Storing new image in GridFS")
         with open(file_path, "rb") as f:
             file_id = fs.put(f, filename=f"ref_{userId}.jpg", userId=userId)
             logger.info(f"Image stored in GridFS with id: {file_id}")
         
-        # Save user info to MongoDB
-        logger.debug("Saving user info to MongoDB")
+        # Verify the image was stored
+        stored_file = fs.find_one({"_id": file_id})
+        if not stored_file:
+            logger.error("Failed to verify stored image in GridFS")
+            raise Exception("Failed to verify stored image")
+        
+        # Save user info to MongoDB with role
+        logger.info("Saving user info to MongoDB")
         result = mongo_db["users"].update_one(
             {"userId": userId},
             {
@@ -131,8 +145,10 @@ async def upload_face_image(
                     "name": name,
                     "matric": matric,
                     "department": department,
+                    "role": "student",  # Set role as student
                     "registeredAt": datetime.utcnow(),
-                    "lastUpdated": datetime.utcnow()
+                    "lastUpdated": datetime.utcnow(),
+                    "hasReferenceImage": True  # Add this flag
                 }
             },
             upsert=True
@@ -163,6 +179,7 @@ async def upload_face_image(
         try:
             if os.path.exists(file_path):
                 os.remove(file_path)
+                logger.info(f"Cleaned up temporary file: {file_path}")
         except Exception as e:
             logger.error(f"Error cleaning up temporary file: {str(e)}")
 
@@ -212,7 +229,8 @@ async def verify_face(userId: str = Form(...), sessionId: str = Form(...), file:
                 os.remove(temp_path)
 
         # Get reference image from GridFS
-        ref_file = fs.find_one({"userId": userId})
+        ref_file_cursor = fs.find({"userId": userId})
+        ref_file = next(ref_file_cursor, None)
         if not ref_file:
             logger.warning(f"No reference image found for user {userId}")
             return JSONResponse(status_code=400, content={"detail": "No reference image found. Please register your face first."})
@@ -306,6 +324,75 @@ async def verify_face(userId: str = Form(...), sessionId: str = Form(...), file:
             content={"detail": f"An error occurred: {str(e)}"}
         )
 
+@app.post("/create-attendance-session")
+async def create_attendance_session(request: Request):
+    try:
+        data = await request.json()
+        session_id = data.get("sessionId")
+        host_id = data.get("hostId")
+
+        if not session_id or not host_id:
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "Missing required fields: sessionId or hostId"}
+            )
+
+        # Get host info
+        host = mongo_db["users"].find_one({"userId": host_id})
+        if not host or host.get("role") != "lecturer":
+            return JSONResponse(
+                status_code=403,
+                content={"detail": "Only lecturers can create attendance sessions"}
+            )
+
+        # Check if session already exists
+        existing_session = mongo_db["attendance_sessions"].find_one({
+            "sessionId": session_id,
+            "status": "active"
+        })
+
+        if existing_session:
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "An active session already exists with this ID"}
+            )        # Create new session with proper timezone handling
+        nigeria_time = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=1)))
+        session = {
+            "sessionId": session_id,
+            "hostId": host_id,
+            "hostName": host.get("name", "Unknown"),
+            "status": "active",
+            "startTime": nigeria_time.isoformat(),
+            "attendeeCount": 0,
+            "created_at": nigeria_time
+        }
+
+        result = mongo_db["attendance_sessions"].insert_one(session)
+        
+        if result.inserted_id:
+            logger.info(f"Created attendance session: {session_id}")
+            return JSONResponse(
+                status_code=200,
+                content={
+                    "status": "success",
+                    "sessionId": session_id,
+                    "message": "Attendance session created successfully"
+                }
+            )
+        else:
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Failed to create attendance session"}
+            )
+
+    except Exception as e:
+        logger.error(f"Error creating attendance session: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Error creating attendance session: {str(e)}"}
+        )
+
 @app.get("/download-attendance/{session_id}")
 async def download_attendance(session_id: str):
     try:
@@ -344,35 +431,40 @@ async def download_attendance(session_id: str):
         # Add timestamp information
         ws['A2'] = f"Generated at: {datetime.now(timezone(timedelta(hours=1))).strftime('%Y-%m-%d %H:%M:%S %Z')}"
         ws.merge_cells('A2:E2')
-        
-        # Set up headers
+          # Set up headers
         headers = ["Name", "Matric Number", "Department", "Time", "Status"]
-        for col, header in enumerate(headers, start=1):
+        for col, header in enumerate(headers, 1):
             cell = ws.cell(row=3, column=col)
             cell.value = header
             cell.font = Font(bold=True)
             cell.alignment = Alignment(horizontal='center')
-        
-        # Add records
+            # Set column width for each header
+            ws.column_dimensions[ws.cell(row=3, column=col).column_letter].width = max(15, len(header) + 2)
+          # Add records
         for row, record in enumerate(records, start=4):
             ws.cell(row=row, column=1).value = record.get("name", "")
             ws.cell(row=row, column=2).value = record.get("matric", "")
             ws.cell(row=row, column=3).value = record.get("department", "")
-            ws.cell(row=row, column=4).value = datetime.fromisoformat(record.get("timestamp")).strftime("%Y-%m-%d %H:%M:%S")
+            try:
+                # Parse and format timestamp in Nigeria timezone
+                timestamp = datetime.fromisoformat(record.get("timestamp", ""))
+                if not timestamp.tzinfo:
+                    timestamp = timestamp.replace(tzinfo=timezone.utc)
+                nigeria_time = timestamp.astimezone(timezone(timedelta(hours=1)))
+                formatted_time = nigeria_time.strftime("%Y-%m-%d %I:%M %p")
+                ws.cell(row=row, column=4).value = formatted_time
+            except Exception as e:
+                logger.error(f"Error formatting timestamp in Excel: {e}")
+                ws.cell(row=row, column=4).value = record.get("timestamp", "Time not available")
             ws.cell(row=row, column=5).value = "Present"
-        
-        # Auto-adjust column widths
-        for column in ws.columns:
-            max_length = 0
-            column = list(column)
-            for cell in column:
-                try:
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
-                except:
-                    pass
-            adjusted_width = (max_length + 2)
-            ws.column_dimensions[column[0].column_letter].width = adjusted_width
+            
+            # Adjust column widths based on content
+            for col in range(1, 6):
+                cell = ws.cell(row=row, column=col)
+                current_width = ws.column_dimensions[cell.column_letter].width
+                content_length = len(str(cell.value))
+                if content_length + 2 > current_width:
+                    ws.column_dimensions[cell.column_letter].width = content_length + 2
         
         # Save to a temporary file in the uploads directory
         temp_file = os.path.join(UPLOAD_DIR, f"attendance_{session_id}_{int(time.time())}.xlsx")
@@ -443,4 +535,292 @@ async def get_attendance(session_id: str):
                 "status": "error",
                 "detail": f"Error retrieving attendance records: {str(e)}"
             }
+        )
+
+@app.get("/get-user-role")
+async def get_user_role(userId: str):
+    try:
+        user = mongo_db["users"].find_one({"userId": userId})
+        if not user:
+            return JSONResponse(
+                status_code=404,
+                content={"detail": "User not found"}
+            )
+        
+        # Return user data including registration status and profile info
+        return {
+            "role": user.get("role", None),
+            "isRegistered": user.get("isRegistered", False),
+            "matricNumber": user.get("matricNumber", ""),
+            "department": user.get("department", ""),
+            "level": user.get("level", ""),
+            "name": user.get("name", ""),
+            "registeredAt": user.get("registeredAt", None),
+            "lastUpdated": user.get("lastUpdated", None)
+        }
+    except Exception as e:
+        logger.error(f"Error getting user role: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Error retrieving user role: {str(e)}"}
+        )
+
+@app.post("/set-user-role")
+async def set_user_role(request: Request):
+    try:
+        data = await request.json()
+        userId = data.get("userId")
+        email = data.get("email")
+        name = data.get("name")
+        role = data.get("role")
+
+        if not all([userId, email, name, role]):
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "Missing required fields"}
+            )
+
+        if role not in ["lecturer", "student"]:
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "Invalid role"}
+            )
+
+        result = mongo_db["users"].update_one(
+            {"userId": userId},
+            {
+                "$set": {
+                    "userId": userId,
+                    "email": email,
+                    "name": name,
+                    "role": role,
+                    "registeredAt": datetime.utcnow(),
+                    "lastUpdated": datetime.utcnow()
+                }
+            },
+            upsert=True
+        )
+
+        return {"status": "success", "role": role}
+    except Exception as e:
+        logger.error(f"Error setting user role: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Error setting user role: {str(e)}"}
+        )
+
+@app.post("/end-attendance-session")
+async def end_attendance_session(request: Request):
+    try:
+        data = await request.json()
+        session_id = data.get("sessionId")
+        if not session_id:
+            return JSONResponse(status_code=400, content={"detail": "Missing required field: sessionId"})
+
+        # Get session info
+        session = mongo_db["attendance_sessions"].find_one({"sessionId": session_id, "status": "active"})
+        if not session:
+            return JSONResponse(status_code=404, content={"detail": "No active session found with this ID"})        # Update session status with proper timezone handling
+        records = list(attendance_collection.find({"sessionId": session_id}).sort("created_at", 1))
+        # Set endTime in Nigeria timezone (UTC+1)
+        nigeria_time = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=1)))
+        mongo_db["attendance_sessions"].update_one(
+            {"sessionId": session_id},
+            {
+                "$set": {
+                    "status": "completed",
+                    "endTime": nigeria_time.isoformat(),
+                    "attendeeCount": len(records),
+                    "downloadUrl": f"/download-attendance/{session_id}"
+                }
+            }
+        )
+
+        logger.info(f"Ended attendance session: {session_id} with {len(records)} records")
+        return JSONResponse(
+            status_code=200,
+            content={
+                "status": "success",
+                "message": "Attendance session ended successfully",
+                "downloadUrl": f"/download-attendance/{session_id}",
+                "recordCount": len(records)
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"Error ending attendance session: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(status_code=500, content={"detail": f"Error ending attendance session: {str(e)}"})
+
+@app.get("/get-attendance-records")
+async def get_attendance_records(userId: str):
+    try:
+        logger.info(f"Fetching attendance records for user: {userId}")
+        user = mongo_db["users"].find_one({"userId": userId})
+        if not user:
+            return JSONResponse(status_code=404, content={"detail": "User not found"})
+
+        if user.get("role") == "lecturer":
+            sessions = list(mongo_db["attendance_sessions"].find({"hostId": userId}, {"_id": 0}).sort("created_at", -1))
+            for session in sessions:
+                session["attendeeCount"] = attendance_collection.count_documents({"sessionId": session["sessionId"]})
+                if "startTime" in session:
+                    try:
+                        # Format startTime in UTC+1 (Nigeria timezone)
+                        start_time = datetime.fromisoformat(session["startTime"])
+                        nigeria_start_time = start_time.replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=1)))
+                        session["startTime"] = nigeria_start_time.isoformat()
+                    except Exception as e:
+                        logger.error(f"Error formatting startTime: {e}")
+                if "endTime" in session:
+                    try:
+                        # Format endTime in UTC+1 (Nigeria timezone)
+                        end_time = datetime.fromisoformat(session["endTime"])
+                        nigeria_end_time = end_time.replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=1)))
+                        session["endTime"] = nigeria_end_time.isoformat()
+                    except Exception as e:
+                        logger.error(f"Error formatting endTime: {e}")
+            return sessions
+        else:
+            records = list(attendance_collection.find({"userId": userId}, {"_id": 0}).sort("created_at", -1))
+            for record in records:
+                session = mongo_db["attendance_sessions"].find_one({"sessionId": record["sessionId"]})
+                if session:
+                    record["hostName"] = session.get("hostName", "Unknown")
+                    record["status"] = session.get("status", "completed")
+            return records
+    except Exception as e:
+        logger.error(f"Error fetching attendance records: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(status_code=500, content={"detail": f"Error fetching attendance records: {str(e)}"})
+
+@app.post("/register-student")
+async def register_student(request: Request):
+    try:
+        data = await request.json()
+        user_id = data.get("userId")
+        matric_number = data.get("matricNumber")
+        department = data.get("department")
+        level = data.get("level")
+        name = data.get("name")
+
+        if not all([user_id, matric_number, department, level, name]):
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "Missing required fields"}
+            )
+
+        # Check if this is an update operation
+        is_update = data.get("isUpdate", False)
+        existing_user = mongo_db["users"].find_one({"userId": user_id})
+        
+        # Validate registration status
+        if not is_update and existing_user and existing_user.get("isRegistered"):
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "User is already registered"}
+            )
+        if is_update and (not existing_user or not existing_user.get("isRegistered")):
+            return JSONResponse(
+                status_code=400,
+                content={"detail": "User must be registered before updating"}
+            )        # Prepare update document
+        update_doc = {
+            "userId": user_id,
+            "level": level,  # Only level can be updated
+            "lastUpdated": datetime.utcnow()
+        }
+        
+        # For new registrations, include all fields
+        if not is_update:
+            update_doc.update({
+                "matricNumber": matric_number,
+                "department": department,
+                "name": name,
+                "role": "student",
+                "isRegistered": True
+            })
+        
+        # For new registrations, add registeredAt
+        if not is_update:
+            update_doc["registeredAt"] = datetime.utcnow()
+        
+        # Update/create user document
+        result = mongo_db["users"].update_one(
+            {"userId": user_id},
+            {"$set": update_doc},
+            upsert=True
+        )
+
+        if result.modified_count > 0 or result.upserted_id:
+            return {
+                "status": "success",
+                "message": "Student registration completed successfully"
+            }
+        else:
+            return JSONResponse(
+                status_code=500,
+                content={"detail": "Failed to update user record"}
+            )
+
+    except Exception as e:
+        logger.error(f"Error in register_student: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Registration failed: {str(e)}"}
+        )
+
+@app.get("/check-reference-image")
+async def check_reference_image(userId: str):
+    try:
+        logger.info(f"Checking reference image for user: {userId}")
+        
+        # Check if user has a reference image in GridFS
+        ref_file = fs.find_one({"filename": f"ref_{userId}.jpg"})
+        exists = ref_file is not None
+        
+        logger.info(f"Reference image {'found' if exists else 'not found'} for user {userId}")
+        return {"exists": exists}
+        
+    except Exception as e:
+        logger.error(f"Error checking reference image: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Error checking reference image: {str(e)}"}
+        )
+
+@app.get("/get-session-status")
+async def get_session_status(sessionId: str):
+    try:
+        logger.info(f"Checking status for session: {sessionId}")
+        
+        # Find active session
+        session = mongo_db["attendance_sessions"].find_one({
+            "sessionId": sessionId,
+            "status": "active"
+        })
+        
+        if not session:
+            logger.warning(f"No active session found with ID: {sessionId}")
+            return {
+                "status": "inactive",
+                "message": "Session not found or not active"
+            }
+        
+        logger.info(f"Found active session: {sessionId}")
+        return {
+            "status": "active",
+            "sessionId": sessionId,
+            "startTime": session.get("startTime"),
+            "hostName": session.get("hostName", "Unknown")
+        }
+        
+    except Exception as e:
+        logger.error(f"Error checking session status: {str(e)}")
+        logger.error(traceback.format_exc())
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Error checking session status: {str(e)}"}
         )

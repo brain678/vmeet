@@ -5,64 +5,72 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { sidebarLinks } from '@/constants';
+import { sidebarLinks, type SidebarLink } from '@/constants';
 import { cn } from '@/lib/utils';
 
-const MobileNav = () => {
+interface MobileNavProps {
+  isLecturer: boolean;
+}
+
+const MobileNav = ({ isLecturer }: MobileNavProps) => {
   const pathname = usePathname();
 
+  // Filter out lecturer-specific routes for non-lecturers
+  const availableLinks = sidebarLinks.filter(link => {
+    if (link.requiresLecturer) {
+      return isLecturer;
+    }
+    return true;
+  });
+
   return (
-    <section className="w-full max-w-[264px]">
+    <div className="md:hidden">
       <Sheet>
         <SheetTrigger asChild>
           <Image
             src="/icons/hamburger.svg"
             width={36}
             height={36}
-            alt="hamburger icon"
-            className="cursor-pointer sm:hidden"
+            alt="Menu"
+            className="cursor-pointer"
           />
         </SheetTrigger>
-        <SheetContent side="left" className="border-none bg-dark-1">
-          <Link href="/" className="flex items-center gap-1">
-           
-            <p className="text-[26px] font-extrabold text-white">Vclass</p>
-          </Link>
-          <div className="flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto">
-            <SheetClose asChild>
-              <section className=" flex h-full flex-col gap-6 pt-16 text-white">
-                {sidebarLinks.map((item) => {
-                  const isActive = pathname === item.route;
+        <SheetContent side="left" className="border-none bg-dark-1 p-0">
+          <div className="flex h-full flex-col px-6">
+            <Link href="/home" className="flex items-center gap-2 py-6">
+              <p className="text-2xl font-bold text-white">V-meet</p>
+            </Link>
+            <nav className="flex flex-col gap-4">
+              {availableLinks.map((item) => {
+                const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`);
 
-                  return (
-                    <SheetClose asChild key={item.route}>
-                      <Link
-                        href={item.route}
-                        key={item.label}
-                        className={cn(
-                          'flex gap-4 items-center p-4 rounded-lg w-full max-w-60',
-                          {
-                            'bg-blue-1': isActive,
-                          }
-                        )}
-                      >
-                        <Image
-                          src={item.imgURL}
-                          alt={item.label}
-                          width={20}
-                          height={20}
-                        />
-                        <p className="font-semibold">{item.label}</p>
-                      </Link>
-                    </SheetClose>
-                  );
-                })}
-              </section>
-            </SheetClose>
+                return (
+                  <SheetClose asChild key={item.route}>
+                    <Link
+                      href={item.route}
+                      className={cn(
+                        'flex items-center gap-4 rounded-lg p-4 transition-colors hover:bg-blue-1/10',
+                        {
+                          'bg-blue-1': isActive,
+                        }
+                      )}
+                    >
+                      <Image
+                        src={item.imgURL}
+                        alt={item.label}
+                        width={24}
+                        height={24}
+                      />
+                      <span className="text-base font-medium text-white">{item.label}</span>
+                    </Link>
+                  </SheetClose>
+                );
+              })}
+            </nav>
           </div>
         </SheetContent>
       </Sheet>
-    </section>
+    </div>
   );
 };
 

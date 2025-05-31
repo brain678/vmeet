@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .primary { fill: #4F46E5; }
+    .secondary { fill: #9333EA; }
+    .accent { fill: #ffffff; }
+  </style>
+  <!-- Interactive learning tools illustration -->
+  <rect x="40" y="40" width="320" height="220" rx="15" class="primary" opacity="0.1"/>
+  <!-- Screen with graphs and charts -->
+  <g transform="translate(60,60)">
+    <rect x="0" y="0" width="280" height="180" rx="10" class="secondary" opacity="0.2"/>
+    <!-- Graph elements -->
+    <path d="M20 140 L80 80 L140 120 L200 60" stroke="#ffffff" fill="none" stroke-width="3" opacity="0.6"/>
+    <circle cx="80" cy="80" r="5" class="accent"/>
+    <circle cx="140" cy="120" r="5" class="accent"/>
+    <circle cx="200" cy="60" r="5" class="accent"/>
+  </g>
+</svg>

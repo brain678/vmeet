@@ -35,36 +35,32 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
   const [attendanceActive, setAttendanceActive] = useState(false);
+  const [currentSessionId, setCurrentSessionId] = useState<string>('');
   const { useCallCallingState } = useCallStateHooks();
   const { user } = useUser();
   const call = useCall();
   const streamHostId = call?.state.createdBy?.id;
   const isHost = user?.id && streamHostId && user.id === streamHostId;
-
-  // Generate a unique sessionId when the component mounts and store in state
-  const [sessionId] = useState(() => {
-    const now = new Date();
-    const id = `session-${now.getFullYear()}${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours()
-      .toString()
-      .padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds()
-      .toString()
-      .padStart(2, '0')}`;
-    console.log("Generated new session ID:", id);
-    return id;
-  });
-
-  // Attendance activation sync
+  // Log any changes to attendance state
   useEffect(() => {
     if (!call) return;
 
     const handleCallUpdated = () => {
-      setAttendanceActive(!!call.state.custom?.attendanceActive);
+      const active = !!call.state.custom?.attendanceActive;
+      const sessionId = call.state.custom?.currentSessionId;
+      console.log('[Attendance] Call state updated:', { active, sessionId, custom: call.state.custom });
+      
+      console.log("Call state updated:", { active, sessionId });
+      setAttendanceActive(active);
+      
+      if (sessionId) {
+        setCurrentSessionId(sessionId);
+      }
     };
 
     // Set initial state
-    setAttendanceActive(!!call.state.custom?.attendanceActive);
+    handleCallUpdated();
+    
     // Listen for real-time updates
     call.on('call.updated', handleCallUpdated);
 
@@ -72,9 +68,121 @@ const MeetingRoom = () => {
       call.off('call.updated', handleCallUpdated);
     };
   }, [call]);
+  const handleAttendanceToggle = async () => {
+    if (!call || !user?.id) {
+      console.log('[Attendance] Missing required data:', { hasCall: !!call, userId: user?.id });
+      return;
+    }
+
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+    console.log('[Attendance] Using backend URL:', backendUrl); // Added debug log
+    const newState = !attendanceActive;
+    let sessionId = currentSessionId;
+
+    try {
+      if (newState) {
+        // Starting attendance
+        // Generate new session ID
+        sessionId = `session-${new Date().toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/T/, '-')
+          .split('.')[0]}-${Math.random().toString(36).substring(2, 7)}`;
+        console.log('[Attendance] Starting new session:', sessionId);
+
+        try {
+          // First update call state
+          console.log('[Attendance] Updating call state...'); // Added debug log
+          await Promise.resolve(call.update({
+            custom: {
+              ...call.state.custom,
+              attendanceActive: true,
+              currentSessionId: sessionId
+            }
+          }));
+
+          // Then create session in backend
+          const requestUrl = `${backendUrl}/create-attendance-session`;
+          console.log('[Attendance] Creating session with URL:', requestUrl); // Added debug log
+          const createResponse = await fetch(requestUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sessionId: sessionId,
+              hostId: user.id
+            }),
+          });
+
+          if (!createResponse.ok) {
+            // If backend fails, revert call state
+            await Promise.resolve(call.update({
+              custom: {
+                ...call.state.custom,
+                attendanceActive: false,
+                currentSessionId: null
+              }
+            }));
+            const errorData = await createResponse.json();
+            throw new Error(errorData.detail || 'Failed to start attendance session');
+          }
+
+          setCurrentSessionId(sessionId);
+          setAttendanceActive(true);
+          console.log('[Attendance] Session started successfully');
+        } catch (startError) {
+          console.error('[Attendance] Error starting session:', startError);
+          throw startError;
+        }
+      } else if (currentSessionId) {
+        // Ending attendance
+        console.log('[Attendance] Ending session:', currentSessionId);
+
+        try {
+          // First end session in backend
+          const endResponse = await fetch(`${backendUrl}/end-attendance-session`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              sessionId: currentSessionId 
+            })
+          });
+
+          if (!endResponse.ok) {
+            const errorData = await endResponse.json();
+            throw new Error(errorData.detail || 'Failed to end attendance session');
+          }          // Get the response data which includes download URL
+          const endData = await endResponse.json();
+
+          // Only update call state if backend succeeds
+          await Promise.resolve(call.update({
+            custom: {
+              ...call.state.custom,
+              attendanceActive: false,
+              currentSessionId: null
+            }
+          }));
+
+          setAttendanceActive(false);
+          setCurrentSessionId('');
+          console.log('[Attendance] Session ended successfully');
+          
+          // Trigger download of attendance report using the URL from response
+          if (endData.downloadUrl) {
+            const downloadUrl = `${backendUrl}${endData.downloadUrl}`;
+            console.log('[Attendance] Opening download URL:', downloadUrl);
+            window.open(downloadUrl, '_blank');
+          }
+        } catch (endError) {
+          console.error('[Attendance] Error ending session:', endError);
+          throw endError;
+        }
+      }
+    } catch (error) {
+      console.error('[Attendance] Error:', error);
+      alert(error instanceof Error ? error.message : "Failed to manage attendance session");
+    }
+  };
 
   const callingState = useCallCallingState();
-
   if (callingState !== CallingState.JOINED) return <Loader />;
 
   const CallLayout = () => {
@@ -88,62 +196,13 @@ const MeetingRoom = () => {
     }
   };
 
-  const handleAttendanceToggle = async () => {
-    if (call) {
-      try {
-        const newState = !attendanceActive;
-        console.log("Session ID for attendance:", sessionId);
-        
-        // Store session ID in call state when starting attendance
-        if (newState) {
-          console.log("Starting new attendance session:", sessionId);
-        } else {
-          console.log("Ending attendance session:", sessionId);
-        }
-        
-        await call.update({
-          custom: {
-            attendanceActive: newState,
-            currentSessionId: sessionId
-          },
-        });
-        setAttendanceActive(newState);
-
-        // If we're stopping attendance, try to download the report
-        if (!newState) { // When turning attendance off
-          try {
-            // Check if there are any records
-            console.log("Checking attendance records for session:", sessionId);
-            const response = await fetch(`http://localhost:8000/download-attendance/${sessionId}`);
-            
-            const data = await response.json();
-            if (response.ok) {
-              if (data.records && data.records.length > 0) {
-                console.log("Found attendance records, initiating download");
-                window.open(`http://localhost:8000/download-attendance/${sessionId}`, '_blank');
-              } else {
-                console.log("No attendance records yet");
-              }
-            } else {
-              console.error("Error downloading attendance:", data.detail || "Unknown error");
-            }
-          } catch (error) {
-            console.error('Error downloading attendance:', error);
-            alert("Failed to download attendance records. Please try again.");
-          }
-        }
-      } catch (error) {
-        console.error('Error updating attendance state:', error);
-        alert("Failed to update attendance state. Please try again.");
-      }
-    }
-  };
-
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
       {/* Attendance Panel at the top right - only for participants when active */}
       <div className="fixed top-6 right-6 z-50">
-        {attendanceActive && !isHost && <AttendancePanel sessionId={sessionId} />}
+        {attendanceActive && !isHost && currentSessionId && (
+          <AttendancePanel sessionId={currentSessionId} />
+        )}
       </div>
       
       <div className="relative flex size-full items-center justify-center">

@@ -70,3 +70,16 @@
   
 }
 
+/* Meeting Card Styles */
+.avatar-group {
+  transition: all 0.3s ease;
+}
+
+.avatar-group:hover .avatar {
+  transform: translateX(0);
+}
+
+.avatar {
+  transition: transform 0.3s ease;
+}
+

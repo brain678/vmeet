@@ -1,0 +1,63 @@
+{
+  "height": 600,
+  "width": 800,
+  "objects": [
+    {
+      "type": "rectangle",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 600,
+      "fill": "#1C1F2E"
+    },
+    {
+      "type": "group",
+      "objects": [
+        {
+          "type": "rectangle",
+          "x": 50,
+          "y": 50,
+          "width": 700,
+          "height": 400,
+          "rx": 20,
+          "fill": "#252A41"
+        },
+        {
+          "type": "grid",
+          "x": 70,
+          "y": 70,
+          "width": 660,
+          "height": 360,
+          "columns": 4,
+          "rows": 3,
+          "fill": "#0E78F9"
+        }
+      ]
+    },
+    {
+      "type": "rectangle",
+      "x": 50,
+      "y": 470,
+      "width": 700,
+      "height": 80,
+      "rx": 10,
+      "fill": "#252A41"
+    },
+    {
+      "type": "circle",
+      "x": 90,
+      "y": 510,
+      "radius": 20,
+      "fill": "#0E78F9"
+    },
+    {
+      "type": "rectangle",
+      "x": 150,
+      "y": 495,
+      "width": 500,
+      "height": 30,
+      "rx": 5,
+      "fill": "#1C1F2E"
+    }
+  ]
+}

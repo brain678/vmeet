@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import HomeCard from './HomeCard';
@@ -20,6 +20,8 @@ const initialValues = {
   link: '',
 };
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+
 const MeetingTypeList = () => {
   const router = useRouter();
   const [meetingState, setMeetingState] = useState<
@@ -27,9 +29,36 @@ const MeetingTypeList = () => {
   >(undefined);
   const [values, setValues] = useState(initialValues);
   const [callDetail, setCallDetail] = useState<Call>();
+  const [userRole, setUserRole] = useState<string | null>(null);
   const client = useStreamVideoClient();
   const { user } = useUser();
   const { toast } = useToast();
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (!user?.id) return;
+      try {
+        const response = await fetch(`${BACKEND_URL}/get-user-role?userId=${user.id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch user role');
+        }
+        const userData = await response.json();
+        if (!userData.role) {
+          throw new Error('No role found for user');
+        }
+        setUserRole(userData.role);
+      } catch (error) {
+        console.error('Error checking user role:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to load user role. Please try refreshing the page.',
+          variant: 'destructive'
+        });
+      }
+    };
+
+    checkUserRole();
+  }, [user?.id, toast]); // Added toast to dependency array
 
   const createMeeting = async () => {
     if (!client || !user) return;
@@ -71,26 +100,55 @@ const MeetingTypeList = () => {
 
   return (
     <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-      <HomeCard
-        img="/icons/add-meeting.svg"
-        title="New Class"
-        description="Start an instant class"
-        handleClick={() => setMeetingState('isInstantMeeting')}
-      />
-      <HomeCard
-        img="/icons/join-meeting.svg"
-        title="Join Class"
-        description="via invitation link"
-        className="bg-blue-1"
-        handleClick={() => setMeetingState('isJoiningMeeting')}
-      />
-      <HomeCard
-        img="/icons/schedule.svg"
-        title="Schedule Class"
-        description="Plan your class "
-        className="bg-purple-1"
-        handleClick={() => setMeetingState('isScheduleMeeting')}
-      />
+      {userRole === 'lecturer' && (
+        <>
+          <HomeCard
+            img="/icons/add-meeting.svg"
+            title="New Class"
+            description="Start an instant class"
+            handleClick={() => setMeetingState('isInstantMeeting')}
+          />
+          <HomeCard
+            img="/icons/schedule.svg"
+            title="Schedule Class"
+            description="Plan your class"
+            className="bg-purple-1"
+            handleClick={() => setMeetingState('isScheduleMeeting')}
+          />
+          <HomeCard
+            img="/icons/location.svg"
+            title="Mark Physical Attendance"
+            description="Record attendance for physical classes"
+            className="bg-gradient-to-br from-teal-500 to-emerald-700 hover:from-teal-600 hover:to-emerald-800 transition-colors"
+            handleClick={() => router.push('/physical-attendance')}
+          />
+        </>
+      )}
+      {userRole === 'student' && (
+        <>
+          <HomeCard
+            img="/icons/join-meeting.svg"
+            title="Join Class"
+            description="via invitation link"
+            className="bg-blue-1"
+            handleClick={() => setMeetingState('isJoiningMeeting')}
+          />
+          <HomeCard
+            img="/icons/student.svg"
+            title="Update Profile"
+            description="Edit your details"
+            className="bg-purple-1"
+            handleClick={() => router.push('/student-registration')}
+          />
+          <HomeCard
+            img="/icons/check-in.svg"
+            title="Check In"
+            description="Mark your physical presence"
+            className="bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 transition-colors"
+            handleClick={() => router.push('/physical-attendance')}
+          />  
+        </>
+      )}
       <HomeCard
         img="/icons/recordings.svg"
         title="View Recordings"

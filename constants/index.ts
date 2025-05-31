@@ -1,38 +1,41 @@
-export const sidebarLinks = [
+export interface SidebarLink {
+  imgURL: string;
+  route: string;
+  label: string;
+  requiresLecturer?: boolean;
+}
+
+// All sidebar navigation links
+export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: '/icons/Home.svg',
-    route: '/',
+    route: '/home',
     label: 'Home',
   },
-
   {
     imgURL: '/icons/upcoming.svg',
-    route: '/upcoming',
+    route: '/home/upcoming',
     label: 'Upcoming',
   },
   {
     imgURL: '/icons/previous.svg',
-    route: '/previous',
+    route: '/home/previous',
     label: 'Previous',
   },
   {
     imgURL: '/icons/Video.svg',
-    route: '/recordings',
+    route: '/home/recordings',
     label: 'Recordings',
   },
   {
-    imgURL: '/icons/add-personal.svg',
-    route: '/attendance',
+    imgURL: '/icons/checked.svg',
+    route: '/home/attendance',
     label: 'Attendance',
+    requiresLecturer: true
   },
-
   {
     imgURL: '/icons/add-personal.svg',
-    route: '/personal-room',
+    route: '/home/personal-room',
     label: 'Personal Room',
   },
-];
-
-export const avatarImages = [
- 
 ];
