@@ -24,11 +24,27 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+app.log
+backend/app.log
 
 # local env files
 .env*.local
+.env
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+backend/__pycache__/
+backend/uploads/
 
 # vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 .vercel
 
 # typescript
