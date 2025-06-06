@@ -2,7 +2,10 @@ services:
   - type: web
     name: vmeet-backend
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      apt-get update && apt-get install -y cmake build-essential libsm6 libxext6 libxrender-dev libglib2.0-0 libgl1-mesa-glx
+      pip install --no-cache-dir dlib==19.24.0
+      pip install -r requirements.txt
     startCommand: gunicorn main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHONPATH
