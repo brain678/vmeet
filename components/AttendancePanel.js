@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
 import { useUser } from "@clerk/nextjs";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+import { BACKEND_URL } from '@/constants/config';
 
 export default function AttendancePanel({ sessionId }) {
   const webcamRef = useRef(null);
@@ -59,11 +58,17 @@ export default function AttendancePanel({ sessionId }) {
         // Check if session is active
         const sessionResponse = await fetch(
           `${BACKEND_URL}/get-session-status?sessionId=${sessionId}`
-        );
-        const sessionData = await sessionResponse.json();
+        );        const sessionData = await sessionResponse.json();
         console.log("[AttendancePanel] Session status response:", sessionData);
         
-        const isActive = sessionResponse.ok && sessionData.status === 'active';
+        if (!sessionResponse.ok) {
+          console.log("[AttendancePanel] Error getting session status:", sessionData);
+          throw new Error(sessionData.detail || "Failed to check session status");
+        }
+
+        const isActive = sessionData.isActive === true;
+        console.log("[AttendancePanel] Is session active?", { isActive, sessionData });
+        
         setSessionActive(isActive);
         
         if (!isActive) {
@@ -206,6 +211,44 @@ export default function AttendancePanel({ sessionId }) {
       setLoading(false);
     }
   };
+
+  const stopAttendance = async () => {
+    try {
+        setLoading(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/end-attendance-session`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                sessionId: activeSessionId,
+            }),
+        });
+
+        const data = await response.json();
+        if (data.status === "success") {
+            setMessage("✅ " + data.message);
+            setSessionActive(false);
+            setActiveSessionId(null);
+            // Update UI state
+            if (onSessionEnd) {
+                onSessionEnd({
+                    downloadUrl: data.downloadUrl,
+                    recordCount: data.recordCount,
+                    sessionEndTime: data.sessionEndTime
+                });
+            }
+        } else {
+            setMessage("❌ Failed to end attendance session");
+            console.error("Error:", data.detail);
+        }
+    } catch (error) {
+        setMessage("❌ Error ending attendance session");
+        console.error("Error:", error);
+    } finally {
+        setLoading(false);
+    }
+};
 
   const renderMessage = () => {
     if (!message) return null;

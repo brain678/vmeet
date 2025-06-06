@@ -29,7 +29,7 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     imgURL: '/icons/checked.svg',
-    route: '/home/attendance',
+    route: '/records',
     label: 'Attendance',
     requiresLecturer: true
   },

@@ -4,9 +4,8 @@ import Link from 'next/link';
 import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import MobileNav from './MobileNav';
+import { BACKEND_URL } from '@/constants/config';
 import Image from 'next/image';
-
-const BACKEND_URL = "http://127.0.0.1:8000";
 
 const Navbar = () => {
   const { user } = useUser();
@@ -28,23 +27,24 @@ const Navbar = () => {
   }, [user?.id]);
 
   return (
-    <nav className="fixed left-0 top-0 z-50 flex h-[72px] w-full items-center justify-between bg-[#0F1828] px-6">
-      <Link href="/home" className="flex items-center gap-2">
-        <p className="text-2xl font-bold text-white">
-          V-meet
-        </p>
-      </Link>
+    <nav className="flex justify-between items-center h-16 px-6 bg-[#0F1828] border-b border-gray-800">
+      <div className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="relative w-10 h-10">
+            <Image 
+              src="/images/logo.png"
+              fill
+              className="object-contain"
+              alt="Logo"
+              priority
+            />
+          </div>
+        </Link>
+      </div>
 
       <div className="flex items-center gap-4">
         <SignedIn>
-          <UserButton 
-            afterSignOutUrl="/sign-in" 
-            appearance={{
-              elements: {
-                avatarBox: "h-[40px] w-[40px]"
-              }
-            }}
-          />
+          <UserButton afterSignOutUrl="/sign-in" />
         </SignedIn>
         <MobileNav isLecturer={userRole === 'lecturer'} />
       </div>

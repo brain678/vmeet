@@ -5,7 +5,9 @@ import { Inter } from "next/font/google";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./globals.css";
+import { ColorModeScript } from "@chakra-ui/react";
 import { Toaster } from "@/components/ui/toaster";
+import { ChakraProvider } from "@/providers/ChakraProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,11 +36,12 @@ export default function RootLayout({
             colorTextOnPrimaryBackground: "#fff",
           },
         }}
-      >
-        <body className={`${inter.className} bg-dark-2`}>
-          <Toaster />
-          {children}
-        </body>
+      >          <body className={inter.className}>
+            <ChakraProvider>
+              {children}
+              <Toaster />
+            </ChakraProvider>
+          </body>
       </ClerkProvider>
     </html>
   );

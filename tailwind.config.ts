@@ -42,6 +42,8 @@ const config = {
         yellow: {
           1: '#F9A90E',
         },
+        'primary': '#2563eb',
+        'secondary': '#7c3aed',
       },
       keyframes: {
         'accordion-down': {
@@ -52,13 +54,19 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'pulse-slow': {
+          '0%, 100%': { opacity: '0.1' },
+          '50%': { opacity: '0.15' }
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'pulse-slow': 'pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       backgroundImage: {
         hero: "url('/images/hero-background.png')",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       textShadow: {
         sm: '0 1px 2px rgba(0, 0, 0, 0.2)',

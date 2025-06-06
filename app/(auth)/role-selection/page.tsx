@@ -6,10 +6,24 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import React from 'react';
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+import { BACKEND_URL } from '@/constants/config';
 
 type Role = 'lecturer' | 'student';
+
+interface RoleData {
+  isRegistered: boolean;
+  hasReferenceImage?: boolean;
+  registrationComplete?: boolean;
+  nextStep?: string;
+  sessionsCount?: number;
+}
+
+interface RoleCheckResponse {
+  status: string;
+  role?: Role;
+  needsRoleSelection: boolean;
+  roleData?: RoleData;
+}
 
 export default function RoleSelection() {
   const router = useRouter();
@@ -17,50 +31,39 @@ export default function RoleSelection() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [roleData, setRoleData] = useState<RoleData | null>(null);
 
-  // Check existing role on mount
   useEffect(() => {
     const checkUserRole = async () => {
       if (!user?.id) return;
-
+      
       try {
-        const response = await fetch(`${BACKEND_URL}/get-user-role?userId=${user.id}`);
+        const response = await fetch(`${BACKEND_URL}/check-role-selection`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId: user.id }),
+        });
         
-        // If 404, the user hasn't selected a role yet - this is expected for new users
-        if (response.status === 404) {
+        const data: RoleCheckResponse = await response.json();
+        
+        if (data.needsRoleSelection) {
+          setRoleData(data.roleData || null);
           return;
         }
 
-        // Handle other error cases
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.detail || 'Failed to get user role');
-        }
-
-        const userData = await response.json();
-        
-        if (userData.role) {
-          if (userData.role === 'student') {
-            try {
-              const studentResponse = await fetch(`${BACKEND_URL}/get-student-info?userId=${user.id}`);
-              const studentData = await studentResponse.json();
-
-              if (studentResponse.ok && (!studentData || !studentData.isComplete)) {
-                router.push('/student-registration');
-                return;
-              }
-            } catch (err) {
-              console.error('Error checking student info:', err);
-              setError('Failed to verify student registration status');
-              return;
-            }
+        if (data.role) {
+          const nextStep = data.roleData?.nextStep || 'home';
+          if (nextStep === 'registration') {
+            router.push('/student-registration');
+          } else {
+            router.push('/home');
           }
-          // If all checks pass, redirect to home
-          router.push('/home');
         }
       } catch (err) {
         console.error('Error checking user role:', err);
-        setError(err instanceof Error ? err.message : 'Failed to check user role');
+        setError('Failed to check user role. Please try again.');
       }
     };
 
@@ -80,6 +83,26 @@ export default function RoleSelection() {
     setSelectedRole(selectedRole);
 
     try {
+      // First check if role selection is allowed
+      const checkResponse = await fetch(`${BACKEND_URL}/check-role-selection`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      const checkData: RoleCheckResponse = await checkResponse.json();
+      
+      // If user already has a role and it's different, confirm change
+      if (!checkData.needsRoleSelection && checkData.role && checkData.role !== selectedRole) {
+        if (!confirm('You already have a role assigned. Are you sure you want to change it? This may affect your existing data.')) {
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Set the user's role
       const response = await fetch(`${BACKEND_URL}/set-user-role`, {
         method: 'POST',
         headers: {
@@ -93,20 +116,20 @@ export default function RoleSelection() {
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
+      const data = await response.json();      if (data.status === "success") {
+        if (selectedRole === 'lecturer') {
+          console.log('Role set successfully, redirecting to home');
+          router.push('/home');
+        } else {
+          console.log('Student role set successfully, redirecting to registration');
+          router.push('/student-registration');
+        }
+      } else {
+        console.error('Failed to set user role:', data);
         throw new Error(data.detail || 'Failed to set user role');
       }
-
-      // Navigate based on selected role
-      if (selectedRole === 'lecturer') {
-        router.push('/home');
-      } else {
-        router.push('/student-registration');
-      }
     } catch (err) {
-      console.error('Error setting role:', err);
+      console.error('Error in role selection:', err);
       setError(err instanceof Error ? err.message : 'Failed to set user role');
     } finally {
       setLoading(false);
@@ -114,7 +137,7 @@ export default function RoleSelection() {
   };
 
   // Loading state
-  if (!isLoaded) {
+  if (!isLoaded || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0F1828] to-[#1B2B44]">
         <div className="text-center">
@@ -125,8 +148,8 @@ export default function RoleSelection() {
     );
   }
 
-  // Show error if user data is not available
-  if (!user || !user.id || !user.emailAddresses[0]?.emailAddress) {
+  // Error state for missing user data
+  if (!user.id || !user.emailAddresses[0]?.emailAddress) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0F1828] to-[#1B2B44]">
         <div className="text-center bg-red-500/10 p-6 rounded-lg">
@@ -210,7 +233,7 @@ export default function RoleSelection() {
                     e.stopPropagation();
                     handleRoleSelection(card.role);
                   }}
-                  disabled={loading || !isLoaded}
+                  disabled={loading}
                   className={`
                     w-full rounded-lg px-4 py-3 font-medium text-white 
                     transition-all duration-200

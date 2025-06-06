@@ -3,8 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useState, useRef, useEffect } from 'react';
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+import { BACKEND_URL } from '@/constants/config';
 
 interface FormData {
   name: string;

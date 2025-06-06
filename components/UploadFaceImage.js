@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useRef } from 'react';
 import { useUser } from "@clerk/nextjs";
-
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+import { BACKEND_URL } from '@/constants/config';
 
 export default function UploadFaceImage() {
   const [file, setFile] = useState(null);

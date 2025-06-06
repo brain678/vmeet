@@ -6,15 +6,14 @@ interface BackgroundImage {
 }
 
 /**
- * Custom hook for managing a background image slider with shuffling functionality
+ * Custom hook for managing a background image slider
  * @param images Array of background images to display
  * @param interval Time in milliseconds between image transitions
- * @returns Object containing current state and control functions
+ * @returns Object containing current state
  */
 export const useBackgroundSlider = (images: BackgroundImage[], interval: number = 10000) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [shuffledImages, setShuffledImages] = useState<BackgroundImage[]>([]);
-  const [isPaused, setIsPaused] = useState(false);
 
   // Shuffle function with type safety
   const shuffleArray = useCallback((array: BackgroundImage[]): BackgroundImage[] => {
@@ -34,41 +33,17 @@ export const useBackgroundSlider = (images: BackgroundImage[], interval: number 
     }
   }, [images, shuffleArray]);
 
-  // Auto-rotate images unless paused
+  // Auto-rotate images
   useEffect(() => {
-    if (isPaused || shuffledImages.length === 0) return;
+    if (shuffledImages.length === 0) return;
 
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % shuffledImages.length);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [shuffledImages.length, interval, isPaused]);
+  }, [shuffledImages.length, interval]);
 
-  // Control functions with validation
-  const goToImage = useCallback((index: number) => {
-    if (index >= 0 && index < shuffledImages.length) {
-      setCurrentImageIndex(index);
-    }
-  }, [shuffledImages.length]);
-
-  const nextImage = useCallback(() => {
-    setCurrentImageIndex((prev) => (prev + 1) % shuffledImages.length);
-  }, [shuffledImages.length]);
-
-  const previousImage = useCallback(() => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? shuffledImages.length - 1 : prev - 1
-    );
-  }, [shuffledImages.length]);
-
-  const reshuffle = useCallback(() => {
-    setShuffledImages(shuffleArray(shuffledImages));
-  }, [shuffledImages, shuffleArray]);
-
-  const togglePause = useCallback(() => {
-    setIsPaused((prev) => !prev);
-  }, []);
   // Ensure we always have a valid current image
   const currentImage = shuffledImages.length > 0 
     ? shuffledImages[currentImageIndex] 
@@ -76,14 +51,6 @@ export const useBackgroundSlider = (images: BackgroundImage[], interval: number 
 
   return {
     currentImageIndex,
-    shuffledImages,
-    isPaused,
-    currentImage,
-    totalImages: shuffledImages.length,
-    goToImage,
-    nextImage,
-    previousImage,
-    reshuffle,
-    togglePause
+    currentImage
   };
 };

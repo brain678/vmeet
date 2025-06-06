@@ -20,17 +20,7 @@ const Home = () => {
   });
   const [isLecturer, setIsLecturer] = useState(false);
 
-  const {
-    currentImageIndex,
-    shuffledImages,
-    currentImage,
-    nextImage,
-    previousImage,
-    togglePause,
-    isPaused,
-    goToImage,
-    totalImages
-  } = useBackgroundSlider(originalBackgroundImages);
+  const { currentImageIndex, currentImage } = useBackgroundSlider(originalBackgroundImages);
 
   // Update time every minute
   useEffect(() => {
@@ -62,9 +52,9 @@ const Home = () => {
   }, [user?.id]);
 
   return (
-    <section className="flex size-full flex-col gap-5 text-white">
-      <div className="relative h-[303px] w-full rounded-[20px] overflow-hidden group">
-        <AnimatePresence initial={false} mode="wait">
+    <section className="flex size-full flex-col py-6 text-white">
+      <div className="relative h-[300px] w-full overflow-hidden rounded-[14px] group">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentImageIndex}
             initial={{ opacity: 0, scale: 1.1 }}
@@ -84,47 +74,6 @@ const Home = () => {
             {/* Dark overlay for better text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-black/30" />
             
-            {/* Navigation arrows */}
-            {shuffledImages.length > 1 && (
-              <>
-                <button
-                  onClick={previousImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors opacity-0 group-hover:opacity-100"
-                  aria-label="Previous image"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors opacity-0 group-hover:opacity-100"
-                  aria-label="Next image"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
-                
-                {/* Pause/Play button */}
-                <button
-                  onClick={togglePause}
-                  className="absolute bottom-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors opacity-0 group-hover:opacity-100"
-                  aria-label={isPaused ? "Resume slideshow" : "Pause slideshow"}
-                >
-                  {isPaused ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653Z" />
-                    </svg>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
-                    </svg>
-                  )}
-                </button>
-              </>
-            )}
-            
             <div className="relative flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11">
               <motion.div 
                 initial={{ y: -20, opacity: 0 }}
@@ -133,7 +82,8 @@ const Home = () => {
                 className="glassmorphism max-w-[273px] rounded-lg py-2 px-4 backdrop-blur-md bg-white/10"
               >
                 <h2 className="text-center text-base font-normal">
-                  Upcoming Class at: 12:30 PM
+                
+                No Sheduled Class 
                 </h2>
               </motion.div>
               <div className="flex flex-col gap-2">
@@ -157,25 +107,8 @@ const Home = () => {
             </div>
           </motion.div>
         </AnimatePresence>
-        
-        {/* Navigation dots */}
-        <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2 z-10">
-          {shuffledImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToImage(index)}
-              className={`h-2 transition-all ${
-                index === currentImageIndex 
-                  ? 'w-6 bg-white rounded-full' 
-                  : 'w-2 bg-white/50 rounded-full hover:bg-white/70'
-              }`}
-              aria-label={`Switch to background ${index + 1}`}
-            />
-          ))}
-        </div>
       </div>
-
-      <div>
+      <div className="mt-8 w-full max-w-[1800px] mx-auto px-6">
         <MeetingTypeList />
       </div>
     </section>

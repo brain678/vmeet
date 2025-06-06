@@ -13,7 +13,7 @@ interface MobileNavProps {
 }
 
 const MobileNav = ({ isLecturer }: MobileNavProps) => {
-  const pathname = usePathname();
+  const pathname = usePathname() || '';
 
   // Filter out lecturer-specific routes for non-lecturers
   const availableLinks = sidebarLinks.filter(link => {
@@ -38,7 +38,15 @@ const MobileNav = ({ isLecturer }: MobileNavProps) => {
         <SheetContent side="left" className="border-none bg-dark-1 p-0">
           <div className="flex h-full flex-col px-6">
             <Link href="/home" className="flex items-center gap-2 py-6">
-              <p className="text-2xl font-bold text-white">V-meet</p>
+              <div className="relative w-10 h-10">
+                <Image 
+                  src="/images/logo.png"
+                  fill
+                  className="object-contain"
+                  alt="Logo"
+                  priority
+                />
+              </div>
             </Link>
             <nav className="flex flex-col gap-4">
               {availableLinks.map((item) => {

@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { sidebarLinks, type SidebarLink } from '@/constants';
 import { cn } from '@/lib/utils';
-
-const BACKEND_URL = "http://127.0.0.1:8000";
+import { BACKEND_URL } from '@/constants/config';
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -37,8 +36,8 @@ const Sidebar = () => {
   );
 
   return (
-    <section className="sticky left-0 top-0 flex h-screen w-[280px] flex-col border-r border-gray-800 bg-[#0F1828] pt-[72px] max-md:hidden">
-      <div className="flex flex-1 flex-col gap-2 p-3">
+    <section className="flex h-[calc(100vh-64px)] w-[280px] flex-col border-r border-gray-800 bg-[#0F1828] max-md:hidden">
+      <div className="flex flex-1 flex-col gap-2 p-3 pt-4">
         {filteredLinks.map((item) => {
           const isActive = pathname === item.route;
           
