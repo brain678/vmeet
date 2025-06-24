@@ -1,11 +1,11 @@
 "use client";
 
+import * as React from "react";
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import React from 'react';
 import { BACKEND_URL } from '@/constants/config';
 
 type Role = 'lecturer' | 'student';
