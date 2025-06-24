@@ -1,7 +1,6 @@
-import * as React from "react";
-
 "use client";
 
+import * as React from "react";
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useState, useRef, useEffect } from 'react';
