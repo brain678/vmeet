@@ -1,7 +1,7 @@
 import time
-from fastapi import FastAPI, UploadFile, Form, HTTPException, Request
+from fastapi import FastAPI, UploadFile, Form, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 from openpyxl import Workbook
@@ -38,13 +38,17 @@ app = FastAPI()
 allowed_origins = [
     "http://localhost:3000",
     "https://vmeetnew.vercel.app",  # Add your Vercel domain here
+    "http://192.168.0.118:3000",    # Add your LAN IP for frontend
+    "http://192.168.0.114:3000",    # Add other LAN IPs if needed
+    "https://cool-snapper-hip.ngrok-free.app",  # Your static ngrok HTTPS domain
+    "*"  # Allow all origins for development (remove in production)
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -462,7 +466,7 @@ async def download_attendance(session_id: str):
         
         # Start data from row 8
         headers = ["Name", "Matric Number", "Department", "Time", "Status", "Verification Score"]
-        for col, header in enumerate(headers, 1):
+        for col, header in enumerate(headers, start=1):
             cell = ws.cell(row=8, column=col)
             cell.value = header
             cell.font = Font(bold=True)
@@ -739,7 +743,7 @@ async def set_user_role(request: Request):
             # Get updated user for response
             updated_user = db.get_user_by_id(userId)
             
-            # Convert datetime objects to ISO format strings
+            # Convert datetime objects to ISO format
             registered_at = updated_user.get("registeredAt")
             last_updated = updated_user.get("lastUpdated")
             
@@ -1299,5 +1303,16 @@ async def check_role_selection(request: Request):
                 "needsRoleSelection": True
             }
         )
+
+# Global handler for all OPTIONS requests to support CORS preflight
+@app.options("/{rest_of_path:path}")
+async def preflight_handler(rest_of_path: str, request: Request):
+    # Allow all CORS preflight requests
+    return PlainTextResponse("", status_code=204, headers={
+        "Access-Control-Allow-Origin": request.headers.get("origin", "*"),
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": request.headers.get("access-control-request-headers", "*"),
+        "Access-Control-Allow-Credentials": "true"
+    })
 
 app.include_router(attendance_router, tags=["attendance"])

@@ -19,6 +19,7 @@ const Home = () => {
     date: new Intl.DateTimeFormat('en-US', { dateStyle: 'full' }).format(now)
   });
   const [isLecturer, setIsLecturer] = useState(false);
+  const [nextClassTime, setNextClassTime] = useState<string | null>(null);
 
   const { currentImageIndex, currentImage } = useBackgroundSlider(originalBackgroundImages);
 
@@ -49,6 +50,41 @@ const Home = () => {
     if (user?.id) {
       checkUserRole();
     }
+  }, [user?.id]);
+
+  useEffect(() => {
+    const fetchNextClass = async () => {
+      if (!user?.id) return;
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-attendance-records?userId=${user.id}`);
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          // For lecturers, data is a list of sessions
+          const futureSessions = data.filter((session: any) => {
+            if (!session.startTime) return false;
+            const start = new Date(session.startTime);
+            return !isNaN(start.getTime()) && start.getTime() > Date.now();
+          });
+          if (futureSessions.length > 0) {
+            // Sort by soonest
+            futureSessions.sort((a: any, b: any) => {
+              const aTime = new Date(a.startTime).getTime();
+              const bTime = new Date(b.startTime).getTime();
+              return aTime - bTime;
+            });
+            const next = futureSessions[0];
+            setNextClassTime(new Date(next.startTime).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' }));
+          } else {
+            setNextClassTime(null);
+          }
+        } else {
+          setNextClassTime(null);
+        }
+      } catch (error) {
+        setNextClassTime(null);
+      }
+    };
+    fetchNextClass();
   }, [user?.id]);
 
   return (
@@ -82,8 +118,7 @@ const Home = () => {
                 className="glassmorphism max-w-[273px] rounded-lg py-2 px-4 backdrop-blur-md bg-white/10"
               >
                 <h2 className="text-center text-base font-normal">
-                
-                No Sheduled Class 
+                  {nextClassTime ? `Next Class: ${nextClassTime}` : 'No Sheduled Class'}
                 </h2>
               </motion.div>
               <div className="flex flex-col gap-2">

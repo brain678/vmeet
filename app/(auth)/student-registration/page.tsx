@@ -22,6 +22,14 @@ interface UserData {
   isUpdate?: boolean;
 }
 
+const steps = [
+  { label: 'Full Name', field: 'name' },
+  { label: 'Matric Number', field: 'matricNumber' },
+  { label: 'Department', field: 'department' },
+  { label: 'Level', field: 'level' },
+  { label: 'Face Image', field: 'file' },
+];
+
 const StudentRegistration = () => {
   const router = useRouter();
   const { user } = useUser();
@@ -31,6 +39,7 @@ const StudentRegistration = () => {
   const [showCamera, setShowCamera] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [studentData, setStudentData] = useState<UserData | null>(null);
+  const [step, setStep] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -175,6 +184,24 @@ const StudentRegistration = () => {
     }
   };
 
+  // Step validation
+  const isStepValid = () => {
+    switch (step) {
+      case 0:
+        return !!formData.name;
+      case 1:
+        return !!formData.matricNumber;
+      case 2:
+        return !!formData.department;
+      case 3:
+        return !!formData.level;
+      case 4:
+        return !!file;
+      default:
+        return false;
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -257,121 +284,65 @@ const StudentRegistration = () => {
         <h1 className="mb-8 text-center text-2xl font-bold text-white">
           {isUpdating ? 'Update Your Profile' : 'Complete Your Registration'}
         </h1>
-        
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-800 rounded-full h-3 mb-6 overflow-hidden">
+          <div
+            className="bg-blue-500 h-3 rounded-full transition-all duration-300"
+            style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+          ></div>
+        </div>
+        <div className="flex justify-center mb-6">
+          {steps.map((s, idx) => (
+            <div
+              key={s.label}
+              className={`w-8 h-8 flex items-center justify-center rounded-full mx-1 text-sm font-bold
+                ${step === idx ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-300'}
+                ${idx < step ? 'border-2 border-blue-500' : ''}`}
+            >
+              {idx + 1}
+            </div>
+          ))}
+        </div>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Face Image Section */}
-          <div className="rounded-lg bg-[#1B2B44] p-6">
-            <h2 className="mb-4 text-lg font-semibold text-white">Face Photo</h2>
-            
-            {showCamera ? (
-              <div className="relative">
-                <video
-                  ref={videoRef}
-                  autoPlay
-                  playsInline
-                  className="w-full rounded-lg"
-                />
-                <canvas ref={canvasRef} className="hidden" />
-                <div className="mt-4 flex justify-center space-x-4">
-                  <button
-                    type="button"
-                    onClick={capturePhoto}
-                    className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                  >
-                    Capture
-                  </button>
-                  <button
-                    type="button"
-                    onClick={cancelCamera}
-                    className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {file ? (
-                  <div className="relative">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt="Preview"
-                      className="h-48 w-full rounded-lg object-cover"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setFile(null)}
-                      className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex justify-center space-x-4">
-                    <button
-                      type="button"
-                      onClick={startCamera}
-                      className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                    >
-                      Use Camera
-                    </button>
-                    <label className="cursor-pointer rounded-lg bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
-                      Upload Image
-                      <input
-                        type="file"
-                        onChange={handleFileChange}
-                        accept="image/*"
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Form Fields */}
-          <div className="rounded-lg bg-[#1B2B44] p-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Full Name</label>              <input
+          {/* Step Content */}
+          {step === 0 && (
+            <div className="rounded-lg bg-[#1B2B44] p-6">
+              <label className="block text-sm font-medium text-gray-300">Full Name</label>
+              <input
                 type="text"
                 value={formData.name}
                 onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                className={`mt-1 w-full rounded-lg p-2 text-white ${
-                  isUpdating ? 'bg-[#1F2937] cursor-not-allowed' : 'bg-[#2C3C56]'
-                }`}
-                disabled={isUpdating}
+                className="mt-1 w-full rounded-lg p-2 text-white bg-[#2C3C56]"
                 required
               />
             </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Matric Number</label>              <input
+          )}
+          {step === 1 && (
+            <div className="rounded-lg bg-[#1B2B44] p-6">
+              <label className="block text-sm font-medium text-gray-300">Matric Number</label>
+              <input
                 type="text"
                 value={formData.matricNumber}
                 onChange={e => setFormData(prev => ({ ...prev, matricNumber: e.target.value }))}
-                className={`mt-1 w-full rounded-lg p-2 text-white ${
-                  isUpdating ? 'bg-[#1F2937] cursor-not-allowed' : 'bg-[#2C3C56]'
-                }`}
-                disabled={isUpdating}
+                className="mt-1 w-full rounded-lg p-2 text-white bg-[#2C3C56]"
                 required
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Department</label>              <input
+          )}
+          {step === 2 && (
+            <div className="rounded-lg bg-[#1B2B44] p-6">
+              <label className="block text-sm font-medium text-gray-300">Department</label>
+              <input
                 type="text"
                 value={formData.department}
                 onChange={e => setFormData(prev => ({ ...prev, department: e.target.value }))}
-                className={`mt-1 w-full rounded-lg p-2 text-white ${
-                  isUpdating ? 'bg-[#1F2937] cursor-not-allowed' : 'bg-[#2C3C56]'
-                }`}
-                disabled={isUpdating}
+                className="mt-1 w-full rounded-lg p-2 text-white bg-[#2C3C56]"
                 required
               />
             </div>
-
-            <div>
+          )}
+          {step === 3 && (
+            <div className="rounded-lg bg-[#1B2B44] p-6">
               <label className="block text-sm font-medium text-gray-300">Level</label>
               <select
                 value={formData.level}
@@ -387,18 +358,112 @@ const StudentRegistration = () => {
                 <option value="500">500 Level</option>
               </select>
             </div>
-          </div>
+          )}
+          {step === 4 && (
+            <div className="rounded-lg bg-[#1B2B44] p-6">
+              <h2 className="mb-4 text-lg font-semibold text-white">Face Photo</h2>
+              {showCamera ? (
+                <div className="relative">
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    className="w-full rounded-lg"
+                  />
+                  <canvas ref={canvasRef} className="hidden" />
+                  <div className="mt-4 flex justify-center space-x-4">
+                    <button
+                      type="button"
+                      onClick={capturePhoto}
+                      className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                    >
+                      Capture
+                    </button>
+                    <button
+                      type="button"
+                      onClick={cancelCamera}
+                      className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {file ? (
+                    <div className="relative">
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt="Preview"
+                        className="h-48 w-full rounded-lg object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setFile(null)}
+                        className="absolute right-2 top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex justify-center space-x-4">
+                      <button
+                        type="button"
+                        onClick={startCamera}
+                        className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                      >
+                        Use Camera
+                      </button>
+                      <label className="cursor-pointer rounded-lg bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
+                        Upload Image
+                        <input
+                          type="file"
+                          onChange={handleFileChange}
+                          accept="image/*"
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full rounded-lg p-3 font-medium text-white transition-colors ${
-              loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-            }`}
-          >
-            {loading ? (isUpdating ? 'Updating...' : 'Registering...') : (isUpdating ? 'Update Profile' : 'Complete Registration')}
-          </button>
+          {/* Stepper Navigation */}
+          <div className="flex justify-between gap-2">
+            {step > 0 && (
+              <button
+                type="button"
+                onClick={() => setStep(step - 1)}
+                className="rounded-lg bg-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+                disabled={loading}
+              >
+                Back
+              </button>
+            )}
+            {step < steps.length - 1 && (
+              <button
+                type="button"
+                onClick={() => isStepValid() && setStep(step + 1)}
+                className={`rounded-lg px-4 py-2 text-white ${isStepValid() ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 cursor-not-allowed'}`}
+                disabled={!isStepValid() || loading}
+              >
+                Next
+              </button>
+            )}
+            {step === steps.length - 1 && (
+              <button
+                type="submit"
+                disabled={loading || !isStepValid()}
+                className={`w-full rounded-lg p-3 font-medium text-white transition-colors ${
+                  loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+              >
+                {loading ? (isUpdating ? 'Updating...' : 'Registering...') : (isUpdating ? 'Update Profile' : 'Complete Registration')}
+              </button>
+            )}
+          </div>
 
           {/* Status Message */}
           {message && (

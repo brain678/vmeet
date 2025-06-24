@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { useUser } from "@clerk/nextjs";
 import { BACKEND_URL } from '@/constants/config';
+import { apiClient } from '@/lib/api-client';
 
 export default function UploadFaceImage() {
   const [file, setFile] = useState(null);
@@ -116,6 +117,36 @@ export default function UploadFaceImage() {
     } catch (e) {
       console.error("Upload error:", e);
       setMessage(`❌ Upload failed: ${e.message || "Network error. Please try again."}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!file || !name || !matric || !department) {
+      setMessage("Please fill in all fields and upload an image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
+    formData.append("name", name);
+    formData.append("matric", matric);
+    formData.append("department", department);
+
+    setLoading(true);
+    try {
+      const response = await apiClient.uploadFaceImage(formData);
+      setMessage("Face image uploaded successfully!");
+      // Reset form
+      setFile(null);
+      setName("");
+      setMatric("");
+      setDepartment("");
+    } catch (error) {
+      setMessage(error.message || "Error uploading face image");
     } finally {
       setLoading(false);
     }

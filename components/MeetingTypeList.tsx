@@ -13,6 +13,7 @@ import ReactDatePicker from 'react-datepicker';
 import { useToast } from './ui/use-toast';
 import { Input } from './ui/input';
 import { BACKEND_URL } from '@/constants/config';
+import { v4 as uuidv4 } from 'uuid';
 
 interface UserData {
   role: string;
@@ -111,7 +112,7 @@ const MeetingTypeList = () => {
         return;
       }
 
-      const id = crypto.randomUUID();
+      const id = uuidv4();
       const call = client.call('default', id);
       await call.getOrCreate();
       setCallDetail(call);
@@ -364,7 +365,7 @@ const MeetingTypeList = () => {
           buttonText="Start Now"
           handleClick={async () => {
             try {
-              const id = crypto.randomUUID();
+              const id = uuidv4();
               const call = client!.call('default', id);
               await call.getOrCreate();
               setCallDetail(call);

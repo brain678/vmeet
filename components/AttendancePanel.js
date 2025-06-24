@@ -109,6 +109,54 @@ export default function AttendancePanel({ sessionId }) {
     };
   }, [userId, sessionId]);
 
+  useEffect(() => {
+    const checkSessionStatus = async () => {
+      if (!userId || !sessionId || checkingStatus) return;
+      
+      try {
+        setCheckingStatus(true);
+        const sessionResponse = await fetch(
+          `${BACKEND_URL}/get-session-status?sessionId=${sessionId}`
+        );
+        const sessionData = await sessionResponse.json();
+        
+        if (sessionResponse.ok) {
+          setSessionActive(sessionData.isActive);
+          if (!sessionData.isActive) {
+            setMessage("❌ Attendance session has ended");
+            return;
+          }
+          
+          // Check if student has already marked attendance
+          const attendanceResponse = await fetch(
+            `${BACKEND_URL}/check-attendance-status?userId=${userId}&sessionId=${sessionId}`
+          );
+          const attendanceData = await attendanceResponse.json();
+          
+          if (attendanceResponse.ok) {
+            setHasMarkedAttendance(attendanceData.hasMarkedAttendance || false);
+            if (attendanceData.hasMarkedAttendance) {
+              setMessage("✅ Attendance already marked for this session");
+            } else {
+              setMessage("Ready to mark attendance");
+            }
+          }
+        }
+      } catch (error) {
+        console.error("[AttendancePanel] Error checking status:", error);
+        setMessage("❌ Error checking session status. Will retry...");
+      } finally {
+        setCheckingStatus(false);
+      }
+    };
+
+    // Check status immediately and then every 30 seconds
+    checkSessionStatus();
+    const intervalId = setInterval(checkSessionStatus, 30000);
+
+    return () => clearInterval(intervalId);
+  }, [userId, sessionId]);
+
   const captureImage = () => {
     const imageSrc = webcamRef.current.getScreenshot({
       width: 1280,

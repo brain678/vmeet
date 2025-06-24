@@ -435,6 +435,81 @@ async def get_student_details(userId: str):
             detail={"status": "error", "message": str(e)}
         )
 
+@router.get("/get-session-status")
+async def get_session_status(sessionId: str):
+    try:
+        session = db.sessions.find_one({"sessionId": sessionId})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
+
+        # Calculate session duration and check if it's still valid
+        start_time = datetime.fromisoformat(session["startTime"].replace('Z', '+00:00'))
+        current_time = datetime.utcnow().replace(tzinfo=timezone.utc)
+        session_duration = (current_time - start_time).total_seconds() / 3600  # in hours
+
+        # Update session status if it's been active for too long (e.g., 24 hours)
+        if session["status"] == "active" and session_duration > 24:
+            db.sessions.update_one(
+                {"sessionId": sessionId},
+                {
+                    "$set": {
+                        "status": "completed",
+                        "endTime": current_time.isoformat(),
+                        "lastUpdated": current_time.isoformat()
+                    }
+                }
+            )
+            return {
+                "status": "completed",
+                "isActive": False,
+                "message": "Session automatically ended due to duration limit"
+            }
+
+        return {
+            "status": session["status"],
+            "isActive": session["status"] == "active",
+            "startTime": session["startTime"],
+            "attendeeCount": session.get("attendeeCount", 0),
+            "message": "Session status retrieved successfully"
+        }
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        logger.error(f"Error getting session status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/check-attendance-status")
+async def check_attendance_status(userId: str, sessionId: str):
+    try:
+        # Check if session exists and is active
+        session = db.sessions.find_one({
+            "sessionId": sessionId,
+            "status": "active"
+        })
+        
+        if not session:
+            return {
+                "status": "error",
+                "hasMarkedAttendance": False,
+                "message": "Session not found or not active"
+            }
+
+        # Check if student has marked attendance
+        attendance = db.attendance.find_one({
+            "sessionId": sessionId,
+            "userId": userId
+        })
+
+        return {
+            "status": "success",
+            "hasMarkedAttendance": bool(attendance),
+            "message": "Attendance already marked" if attendance else "Attendance not yet marked",
+            "timestamp": attendance["timestamp"] if attendance else None
+        }
+    except Exception as e:
+        logger.error(f"Error checking attendance status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Test coordinates
 LECTURER_TEST_COORDS = {
     "latitude": 6.827302,
