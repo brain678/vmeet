@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useRef } from 'react';
 import { useUser } from "@clerk/nextjs";
-import { BACKEND_URL } from '@/constants/config';
-import { apiClient } from '@/lib/api-client';
 
 export default function UploadFaceImage() {
   const [file, setFile] = useState(null);
@@ -13,7 +11,6 @@ export default function UploadFaceImage() {
   const [matric, setMatric] = useState("");
   const [department, setDepartment] = useState(""); // Add this line
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
   const { user } = useUser();
   const userId = user?.id;
 
@@ -26,39 +23,6 @@ export default function UploadFaceImage() {
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
-    }
-  };
-
-  // Capture photo from webcam
-  const capturePhoto = () => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if (video && canvas) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const imageFile = new File([blob], "captured-image.png", { type: "image/png" });
-          setFile(imageFile);
-          setShowCamera(false);
-          // Stop the camera
-          const stream = video.srcObject;
-          if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-          }
-        }
-      }, "image/png");
-    }
-  };
-
-  // Cancel camera
-  const cancelCamera = () => {
-    setShowCamera(false);
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject;
-      stream.getTracks().forEach(track => track.stop());
     }
   };
 
@@ -117,36 +81,6 @@ export default function UploadFaceImage() {
     } catch (e) {
       console.error("Upload error:", e);
       setMessage(`❌ Upload failed: ${e.message || "Network error. Please try again."}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!file || !name || !matric || !department) {
-      setMessage("Please fill in all fields and upload an image.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("userId", userId);
-    formData.append("name", name);
-    formData.append("matric", matric);
-    formData.append("department", department);
-
-    setLoading(true);
-    try {
-      const response = await apiClient.uploadFaceImage(formData);
-      setMessage("Face image uploaded successfully!");
-      // Reset form
-      setFile(null);
-      setName("");
-      setMatric("");
-      setDepartment("");
-    } catch (error) {
-      setMessage(error.message || "Error uploading face image");
     } finally {
       setLoading(false);
     }

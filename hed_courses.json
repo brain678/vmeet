@@ -1,0 +1,298 @@
+[
+  {
+    "code": "HED111",
+    "title": "Health And Wellness Of The University Students",
+    "level": "100",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED121",
+    "title": "Foundation Of Health Education",
+    "level": "100",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED122",
+    "title": "Concepts Of Health Education",
+    "level": "100",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED123",
+    "title": "PERSONAL HEALTH",
+    "level": "100",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED124",
+    "title": "Food & nutrition education",
+    "level": "100",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED211",
+    "title": "Communicable and Non communicable disease",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED212",
+    "title": "School Health Education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED213",
+    "title": "Foods and Nutrition",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED214",
+    "title": "Environmental health education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED215",
+    "title": "Environmental Health Education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED221",
+    "title": "Mental and Social Health",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED222",
+    "title": "Communicable and Non communicable disease II",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED223",
+    "title": "Organization and administration of health education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED224",
+    "title": "Organisation and Administration Of Health Education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED225",
+    "title": "Consumer Health Education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED226",
+    "title": "History and Philosophy of Health Education",
+    "level": "200",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED311",
+    "title": "Alcohol and Drug Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED312",
+    "title": "Public Health education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED313",
+    "title": "Methods and materials in health education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED314",
+    "title": "Accident, First Aid and Safety Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED315",
+    "title": "Research Methods in Health Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED316",
+    "title": "Practicum / field experience",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED317",
+    "title": "Measurement and Evaluation in Health Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED318",
+    "title": "Communication theory and change processes",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED321",
+    "title": "Family Life and Sex Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED322",
+    "title": "Social Processes and Communication theory in Health Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED323",
+    "title": "Seminar in Health Education",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED324",
+    "title": "Occupational Health",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED325",
+    "title": "Health and Illness Behaviour",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED326",
+    "title": "Alternate Health Care Delivery System",
+    "level": "300",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED421",
+    "title": "Ageing and Death Education",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED422",
+    "title": "Problems and Contemporary Issues in Health Education",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED423",
+    "title": "Health Agencies",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED424",
+    "title": "Demography and Population Education",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED425",
+    "title": "Comparative Health care System",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED426",
+    "title": "Health for A Typical Children",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  },
+  {
+    "code": "HED429",
+    "title": "Research Projects",
+    "level": "400",
+    "department": "Department of Health and Safety Promotion",
+    "departmentCode": "HED",
+    "credits": 3
+  }
+]

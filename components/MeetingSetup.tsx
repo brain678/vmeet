@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import {
-  DeviceSettings,
   VideoPreview,
   useCall,
   useCallStateHooks,
@@ -9,6 +8,7 @@ import {
 
 import Alert from './Alert';
 import { Button } from './ui/button';
+import { ArrowRight, CameraOff, MicOff, RefreshCw, Settings2 } from 'lucide-react';
 
 const MeetingSetup = ({
   setIsSetupComplete,
@@ -55,34 +55,39 @@ const MeetingSetup = ({
     );
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center">
-      <div className="w-[480px] space-y-4">
-        <h1 className="text-center text-2xl font-bold text-white">Setup</h1>
+    <div className="flex min-h-[100svh] w-full items-center justify-center bg-[#F7F4F8] px-3 py-5 text-[#2D1A3A] sm:min-h-screen sm:px-6 sm:py-10">
+      <div className="w-full max-w-[560px] min-w-0 space-y-4 rounded-[24px] border border-[#E8E0ED] bg-white p-3 shadow-[0_14px_35px_rgba(71,38,96,0.1)] sm:space-y-5 sm:rounded-[28px] sm:p-7">
+        <div className="flex items-start justify-between gap-4 px-1">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8437C8]">Before you join</p>
+            <h1 className="mt-1 text-2xl font-semibold text-[#2D1A3A] sm:text-3xl">Setup</h1>
+            <p className="mt-1 text-xs leading-5 text-[#6B6172] sm:text-sm">Check your camera and audio before entering the class.</p>
+          </div>
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F0E5F8] text-[#8437C8]">
+            <Settings2 className="h-5 w-5" />
+          </div>
+        </div>
 
         {/* Video Preview Container */}
-        <div className="relative w-full">
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl border-2 border-blue-500">
-            <VideoPreview className="h-full w-full object-cover bg-[#1B2B44]" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#1B2B44]/90 p-6 opacity-0 group-[.no-camera]:opacity-100 transition-opacity">
-            <div className="flex flex-col items-center gap-4 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
+        <div className="relative w-full overflow-hidden rounded-2xl border border-[#DCCCE7] bg-[#24152F] shadow-inner">
+          <div className="relative aspect-[16/10] w-full overflow-hidden sm:aspect-[4/3]">
+            <VideoPreview className="relative flex h-full w-full items-center justify-center bg-[#24152F] text-center object-cover [&_.str_video__video-preview__disabled-video-preview]:absolute [&_.str_video__video-preview__disabled-video-preview]:inset-0 [&_.str_video__video-preview__disabled-video-preview]:flex [&_.str_video__video-preview__disabled-video-preview]:items-center [&_.str_video__video-preview__disabled-video-preview]:justify-center [&_.str_video__video-preview__disabled-video-preview]:px-4 [&_.str_video__video-preview__disabled-video-preview]:text-center [&_.str_video__video-preview__no-camera-preview]:absolute [&_.str_video__video-preview__no-camera-preview]:inset-0 [&_.str_video__video-preview__no-camera-preview]:flex [&_.str_video__video-preview__no-camera-preview]:items-center [&_.str_video__video-preview__no-camera-preview]:justify-center [&_.str_video__video-preview__no-camera-preview]:px-4 [&_.str_video__video-preview__no-camera-preview]:text-center" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#24152F]/95 p-5 opacity-0 transition-opacity group-[.no-camera]:opacity-100 sm:p-8">
+            <div className="flex max-w-[390px] flex-col items-center gap-4 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#E45D72]/15 text-[#FF9AAA]"><CameraOff className="h-6 w-6" /></div>
               <div>
-                <h3 className="text-xl font-semibold text-white mb-2">No Camera Detected</h3>
-                <p className="text-gray-300 text-sm">Please make sure your camera is connected and you have granted camera permissions. Check your browser settings if the issue persists.</p>
+                <h3 className="text-lg font-semibold text-white sm:text-xl">No Camera Detected</h3>
+                <p className="mt-2 text-sm leading-6 text-white/70">Please make sure your camera is connected and you have granted camera permissions. Check your browser settings if the issue persists.</p>
               </div>
               <Button 
-                className="mt-2 bg-red-500 hover:bg-red-600 text-white"
+                className="mt-1 h-10 rounded-lg bg-[#E45D72] px-4 font-semibold text-white hover:bg-[#C9475D]"
                 onClick={() => {
                   if (typeof window !== 'undefined' && window.location) {
                     window.location.reload();
                   }
                 }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
-                </svg>
+                <RefreshCw className="mr-2 h-4 w-4" />
                 Retry Camera
               </Button>
             </div>
@@ -91,58 +96,31 @@ const MeetingSetup = ({
       </div>
 
         {/* Controls Container */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex items-center gap-6">
-            <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-white/10 px-4 py-3 text-white">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
+            <label className="flex min-h-12 min-w-0 cursor-pointer items-center gap-3 rounded-xl border border-[#E8E0ED] bg-[#F7F4F8] px-3 py-3 text-[#3B3045] sm:px-4">
               <input
                 type="checkbox"
                 checked={isMicCamToggled}
                 onChange={(e) => setIsMicCamToggled(e.target.checked)}
-                className="h-5 w-5 rounded-md border-2 border-blue-500"
+                className="h-5 w-5 rounded border-[#B98BDC] accent-[#8437C8]"
               />
-              <span className="text-sm font-medium">
+              <span className="flex min-w-0 items-center gap-2 text-sm font-medium leading-5">
+                <MicOff className="h-4 w-4 text-[#8437C8]" />
                 Join with mic and camera off
               </span>
             </label>
 
-            <Button
-              onClick={() => {
-                const settingsButton = document.querySelector(
-                  '.str-video__device-settings button'
-                ) as HTMLButtonElement;
-                if (settingsButton) settingsButton.click();
-              }}
-              className="flex items-center gap-2 rounded-xl bg-white/10 px-4 py-3 text-white hover:bg-white/20"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-              </svg>
-              Settings
-            </Button>
-            <div className="hidden">
-              <DeviceSettings />
-            </div>
           </div>
 
           <Button
-            className="rounded-xl bg-[#10B981] px-8 py-3 text-base font-medium text-white transition-colors hover:bg-[#059669]"
+            className="h-12 w-full rounded-xl bg-[#8437C8] px-8 text-base font-semibold text-white shadow-[0_8px_16px_rgba(132,55,200,0.2)] transition-colors hover:bg-[#6E27AE]"
             onClick={() => {
               call.join();
               setIsSetupComplete(true);
             }}
           >
-            Join meeting
+            Join meeting <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

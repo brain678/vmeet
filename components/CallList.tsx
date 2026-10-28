@@ -64,44 +64,62 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const noCallsMessage = getNoCallsMessage();
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+    <div className="w-full">
       {calls && calls.length > 0 ? (
-        calls.map((meeting: Call | CallRecording) => (
-          <MeetingCard
-            key={(meeting as Call).id}
-            icon={
-              type === 'ended'
-                ? '/icons/previous.svg'
-                : type === 'upcoming'
-                  ? '/icons/upcoming.svg'
-                  : '/icons/recordings.svg'
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+          {calls.map((meeting: Call | CallRecording) => {
+            // For Call type (upcoming/ended):
+            const isCall = (meeting as Call).state !== undefined;
+            const custom = isCall ? (meeting as Call).state?.custom || {} : {};
+            const title = custom.title || 'Untitled Meeting';
+            const description = custom.description || '';
+            // Fix: Stream stores startsAt as a custom field if set via 'custom', fallback if needed
+            let date = '';
+            if (isCall) {
+              const state = (meeting as Call).state;
+              // Prefer state.startsAt, fallback to state.custom.startsAt
+              const startsAt = state?.startsAt || state?.custom?.startsAt;
+              if (startsAt) {
+                date = new Date(startsAt).toLocaleString();
+              }
+            } else if ((meeting as CallRecording).start_time) {
+              date = new Date((meeting as CallRecording).start_time).toLocaleString();
             }
-            title={
-              (meeting as Call).state?.custom?.description ||
-              (meeting as CallRecording).filename?.substring(0, 20) ||
-              'No Description'
-            }
-            date={
-              (meeting as Call).state?.startsAt?.toLocaleString() ||
-              (meeting as CallRecording).start_time?.toLocaleString()
-            }
-            isPreviousMeeting={type === 'ended'}
-            link={
-              type === 'recordings'
-                ? (meeting as CallRecording).url
-                : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id}`
-            }
-            buttonIcon1={type === 'recordings' ? '/icons/play.svg' : undefined}
-            buttonText={type === 'recordings' ? 'Play' : 'Start'}
-            handleClick={
-              type === 'recordings'
-                ? () => router.push(`${(meeting as CallRecording).url}`)
-                : () => router.push(`/meeting/${(meeting as Call).id}`)
-            }
-          />
-        ))
+            return (
+              <MeetingCard
+                key={(meeting as Call).id}
+                icon={
+                  type === 'ended'
+                    ? '/icons/previous.svg'
+                    : type === 'upcoming'
+                      ? '/icons/upcoming.svg'
+                      : '/icons/recordings.svg'
+                }
+                title={title}
+                date={date || ''}
+                isPreviousMeeting={type === 'ended'}
+                link={
+                  type === 'recordings'
+                    ? (meeting as CallRecording).url
+                    : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id}`
+                }
+                buttonIcon1={type === 'recordings' ? '/icons/play.svg' : undefined}
+                buttonText={type === 'recordings' ? 'Play' : 'Start'}
+                handleClick={
+                  type === 'recordings'
+                    ? () => router.push(`${(meeting as CallRecording).url}`)
+                    : () => router.push(`/meeting/${(meeting as Call).id}`)
+                }
+                description={description}
+              />
+            );
+          })}
+        </div>
       ) : (
-        <h1 className="text-2xl font-bold text-white">{noCallsMessage}</h1>
+        <div className="rounded-[24px] border border-[#E6D8F4] bg-white px-6 py-8 text-center shadow-[0_5px_15px_rgba(71,38,96,0.08)] sm:px-8">
+          <h1 className="text-xl font-semibold text-[#2D1A3A] sm:text-2xl">{noCallsMessage}</h1>
+          <p className="mt-2 text-sm text-[#6B6171]">New sessions will appear here when they are scheduled.</p>
+        </div>
       )}
     </div>
   );

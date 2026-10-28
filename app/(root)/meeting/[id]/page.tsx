@@ -12,10 +12,16 @@ import MeetingSetup from '@/components/MeetingSetup';
 import MeetingRoom from '@/components/MeetingRoom';
 
 const MeetingPage = () => {
-  const { id } = useParams();
+  const id = useParams<{ id: string }>()?.id;
   const { isLoaded, user } = useUser();
-  const { call, isCallLoading } = useGetCallById(id);
+  const { call, isCallLoading } = useGetCallById(id ?? '');
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+
+  if (!id) return (
+    <p className="text-center text-3xl font-bold text-white">
+      Call Not Found
+    </p>
+  );
 
   if (!isLoaded || isCallLoading) return <Loader />;
 

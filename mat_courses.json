@@ -1,0 +1,354 @@
+[
+  {
+    "code": "MAT111",
+    "title": "Elementary Mathematics 1",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT112",
+    "title": "Introduction to statistics",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT121",
+    "title": "Elementary Mathematics II",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT122",
+    "title": "Probability Distribution",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT123",
+    "title": "Vectors and Coordinate Geometry",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT124",
+    "title": "Probability Distribution",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT125",
+    "title": "Dynamics",
+    "level": "100",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT211",
+    "title": "Mathematical Methods I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT212",
+    "title": "Linear Algebra I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT213",
+    "title": "Real Analysis I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT214",
+    "title": "Abstract Algebra I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT215",
+    "title": "Introduction to Numerical Analysis",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT216",
+    "title": "Research Method in Mathematics Education I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT221",
+    "title": "Mathematical Methods II",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT222",
+    "title": "Operation Research I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT223",
+    "title": "Mathematics Methodology I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT224",
+    "title": "Probability theory",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT225",
+    "title": "Real Analysis II",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT226",
+    "title": "Mathematics Methodology I",
+    "level": "200",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT311",
+    "title": "Abstract Algebra II",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT312",
+    "title": "Complex Analysis II",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT313",
+    "title": "Introduction to Mathematical Modeling",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT314",
+    "title": "Vector and Tensor Analysis",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT315",
+    "title": "Differential Equations I",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT316",
+    "title": "Functional Analysis",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT317",
+    "title": "Research Method in Mathematics Education II",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT318",
+    "title": "Research Method in Mathematics Education",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT321",
+    "title": "General Topology",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT322",
+    "title": "Partial Differential Equation",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT323",
+    "title": "Operation Research",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT324",
+    "title": "Electromagnetism",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT325",
+    "title": "Commutative Algebra I",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT326",
+    "title": "Mathematics Computation (Practical)",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT327",
+    "title": "Numeical Analysis II",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT328",
+    "title": "Mathematics Methodology II",
+    "level": "300",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT419",
+    "title": "Project",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT421",
+    "title": "Commutative Algebra II",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT422",
+    "title": "Partial Differential Equation",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT423",
+    "title": "Lebesgue Measure and Integration",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT424",
+    "title": "Complex Analysis II",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT425",
+    "title": "Operation Research II",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT426",
+    "title": "Numerical Analysis III",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT427",
+    "title": "Regression Analysis",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  },
+  {
+    "code": "MAT428",
+    "title": "Research Method in Mathematics Education II",
+    "level": "400",
+    "department": "Department of Mathematics",
+    "departmentCode": "MAT",
+    "credits": 3
+  }
+]

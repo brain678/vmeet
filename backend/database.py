@@ -59,6 +59,11 @@ class DatabaseManager:
                 self.attendance = self.db[self.ATTENDANCE_COLLECTION]
                 self.users = self.db["users"]
                 self.sessions = self.db["sessions"]
+                self.schedules = self.db["schedules"]  # New schedules collection
+                self.admins = self.db["admins"]
+                self.departments = self.db["departments"]
+                self.levels = self.db["levels"]
+                self.courses = self.db["courses"]
                 self.fs = GridFS(self.db)
                 
                 # Create indexes
@@ -84,13 +89,52 @@ class DatabaseManager:
             self.attendance.create_index([("sessionId", ASCENDING)])
             self.users.create_index([("email", ASCENDING)])
             self.users.create_index([("role", ASCENDING)])
+            self.users.create_index([("role", ASCENDING), ("courses", ASCENDING)])
             self.sessions.create_index([("hostId", ASCENDING)])
+            self.sessions.create_index([("hostId", ASCENDING), ("created_at", -1)])
             self.sessions.create_index([("status", ASCENDING)])
+            self.sessions.create_index([("courseCode", ASCENDING), ("status", ASCENDING)])
+            self.sessions.create_index([
+                ("status", ASCENDING),
+                ("absenceFinalizationStatus", ASCENDING),
+                ("absenceFinalizationNextAttemptAt", ASCENDING),
+            ])
             self.sessions.create_index([("created_at", ASCENDING)])
+            self.admins.create_index([("email", ASCENDING)])
+            
+            # Departments indexes
+            self.departments.create_index([("name", ASCENDING)])
+            self.departments.create_index([("createdAt", ASCENDING)])
+            self._ensure_unique_index(self.departments, "code")
+            
+            # Levels indexes
+            self.levels.create_index([("code", ASCENDING)])
+            self.levels.create_index([("yearOfStudy", ASCENDING)])
+            self.levels.create_index([("createdAt", ASCENDING)])
+            
+            # Courses indexes
+            self.courses.create_index([("code", ASCENDING)])
+            self.courses.create_index([("title", ASCENDING)])
+            self.courses.create_index([("departmentId", ASCENDING)])
+            self.courses.create_index([("levelId", ASCENDING)])
+            self.courses.create_index([("createdAt", ASCENDING)])
+            self.courses.create_index([("departmentName", ASCENDING)])
+            self.courses.create_index([("levelCode", ASCENDING)])
+            
+            # Schedules indexes
+            self.schedules.create_index([("scheduleId", ASCENDING)])
+            self.schedules.create_index([("lecturerId", ASCENDING)])
+            self.schedules.create_index([("courseCode", ASCENDING)])
+            self.schedules.create_index([("status", ASCENDING)])
+            self.schedules.create_index([("scheduledDateTime", ASCENDING)])
+            self.schedules.create_index([("createdAt", ASCENDING)])
 
             # Handle unique indexes carefully
             self._ensure_unique_index(self.users, "userId")
             self._ensure_unique_index(self.sessions, "sessionId")
+            self._ensure_unique_index(self.schedules, "scheduleId")
+            self._ensure_unique_index(self.admins, "email")
+            self._ensure_unique_index(self.courses, "code")
             self._ensure_unique_attendance_index()
 
         except Exception as e:

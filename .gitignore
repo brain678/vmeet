@@ -11,6 +11,7 @@
 
 # next.js
 /.next/
+/.next-dev/
 /out/
 
 # production
@@ -38,6 +39,7 @@ __pycache__/
 *.py[cod]
 backend/__pycache__/
 backend/uploads/
+backend/tools/.load-test-fixtures/
 
 # vercel
 .vercel

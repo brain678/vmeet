@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import MobileNav from './MobileNav';
 import { BACKEND_URL } from '@/constants/config';
@@ -27,25 +27,26 @@ const Navbar = () => {
   }, [user?.id]);
 
   return (
-    <nav className="flex justify-between items-center h-16 px-6 bg-[#0F1828] border-b border-gray-800">
-      <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="relative w-10 h-10">
-            <Image 
-              src="/images/logo.png"
-              fill
-              className="object-contain"
-              alt="Logo"
-              priority
-            />
-          </div>
-        </Link>
+    <nav className="relative flex h-16 items-center justify-between px-4 sm:px-5 md:justify-end md:px-6">
+      <Link
+        href="/home"
+        className="flex h-8 w-[110px] shrink-0 items-center md:hidden"
+      >
+        <Image
+          src="/images/logo.png"
+          width={110}
+          height={28}
+          className="h-8 w-[110px] object-contain object-left"
+          alt="VMeet"
+          priority
+        />
+      </Link>
+
+      <div className="ml-auto flex items-center md:hidden">
+        <MobileNav isLecturer={userRole === 'lecturer'} />
       </div>
 
-      <div className="flex items-center gap-4">
-        <SignedIn>
-          <UserButton afterSignOutUrl="/sign-in" />
-        </SignedIn>
+      <div className="hidden md:block">
         <MobileNav isLecturer={userRole === 'lecturer'} />
       </div>
     </nav>

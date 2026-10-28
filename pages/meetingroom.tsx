@@ -1,7 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Box, Button, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { AttendanceData } from '@/types/attendance';
 import { toast } from '@/components/ui/use-toast';

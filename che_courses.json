@@ -1,0 +1,362 @@
+[
+  {
+    "code": "CHE102",
+    "title": "Chemistry Practical",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE105",
+    "title": "Experimental Practical 1",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE111",
+    "title": "Basic Chemistry 1",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE121",
+    "title": "Basic Chemistry for Non Chemistry Students (Prerequisite to CHE 212)",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE122",
+    "title": "Introductory Organic Chemistry (Prerequisite to CHE 212)",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE123",
+    "title": "Introductory Inorganic Chemistry",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE124",
+    "title": "Introductory Physical Chemistry",
+    "level": "100",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE204",
+    "title": "Chemistry Practical",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE205",
+    "title": "Experimental Chemistry II",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE211",
+    "title": "Analytical Chemistry I [prerequisite to CHE 311",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE212",
+    "title": "General organic chemistry *{CHE 112 OR 122 IS Required",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE213",
+    "title": "Introductory Applied Chemistry (Photochemistry, Solid state",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE214",
+    "title": "Inorganic Chemistry",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE215",
+    "title": "Chemistry Method 1",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE216",
+    "title": "Industrial Chemistry (Dye and Textile Chemistry & Cosmetics and Detergents Chemistry)",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE217",
+    "title": "Introductory Green and Forensic chemistry",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE221",
+    "title": "Instrumentation Chemistry",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE222",
+    "title": "Phase Equilibria",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE223",
+    "title": "Electrochemistry and Redox Equilibria",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE224",
+    "title": "Chemical Kinetics & Equilibrium",
+    "level": "200",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE305",
+    "title": "Experimental Chemistry III",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE311",
+    "title": "Analytical Chemistry II (CHE 211 is required)",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE312",
+    "title": "Inorganic Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE313",
+    "title": "Transition Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE314",
+    "title": "Organic Spectroscopy",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE315",
+    "title": "Analytical Chemistry II",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE316",
+    "title": "Quantum Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE317",
+    "title": "Organic Spectroscopy",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE318",
+    "title": "Polymer Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE321",
+    "title": "Kinetics and Chemical Equilibrium",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE322",
+    "title": "Polycyclic and Heterocyclic compounds",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE323",
+    "title": "Organometallic Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE324",
+    "title": "Organometallic Chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE325",
+    "title": "Introduction to Organic Synthesis",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE326",
+    "title": "Protein and carbohydrate chemistry",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE327",
+    "title": "Scientific Research & Writings",
+    "level": "300",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE420",
+    "title": "Synthentic Experimental Chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE421",
+    "title": "Food Chemistry and Analysis",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE422",
+    "title": "Aromatic Heterocyclic & Natural Products Chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE423",
+    "title": "Co-ordination and Complex Chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE424",
+    "title": "Basic Computational chemistry and cheminformatics",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE425",
+    "title": "Environmental and Toxicology Chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE426",
+    "title": "Basic in drugs, pharmaceutical and medicinal chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE427",
+    "title": "Introductory Forensic Chemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  },
+  {
+    "code": "CHE428",
+    "title": "Nuclear and Radiochemistry",
+    "level": "400",
+    "department": "Department of Chemical Sciences",
+    "departmentCode": "CHE",
+    "credits": 3
+  }
+]

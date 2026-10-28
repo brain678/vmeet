@@ -166,11 +166,6 @@ export default function AttendancePanel({ sessionId }) {
     setMessage("Image captured. Click 'Verify & Mark Attendance' to proceed.");
   };
 
-  const retakeImage = () => {
-    setCapturedImage(null);
-    setMessage("");
-  };
-
   const verifyAndMarkAttendance = async () => {
     if (!userId) {
       console.error("[AttendancePanel] No user ID available");
@@ -259,44 +254,6 @@ export default function AttendancePanel({ sessionId }) {
       setLoading(false);
     }
   };
-
-  const stopAttendance = async () => {
-    try {
-        setLoading(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/end-attendance-session`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                sessionId: activeSessionId,
-            }),
-        });
-
-        const data = await response.json();
-        if (data.status === "success") {
-            setMessage("✅ " + data.message);
-            setSessionActive(false);
-            setActiveSessionId(null);
-            // Update UI state
-            if (onSessionEnd) {
-                onSessionEnd({
-                    downloadUrl: data.downloadUrl,
-                    recordCount: data.recordCount,
-                    sessionEndTime: data.sessionEndTime
-                });
-            }
-        } else {
-            setMessage("❌ Failed to end attendance session");
-            console.error("Error:", data.detail);
-        }
-    } catch (error) {
-        setMessage("❌ Error ending attendance session");
-        console.error("Error:", error);
-    } finally {
-        setLoading(false);
-    }
-};
 
   const renderMessage = () => {
     if (!message) return null;

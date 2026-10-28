@@ -1,0 +1,378 @@
+[
+  {
+    "code": "PHY111",
+    "title": "Basic Principles of Physics 1(Mechanics and Properties of matter, Heat and Thermodynamics)",
+    "level": "100",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY112",
+    "title": "Heat and Thermodynamics",
+    "level": "100",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY121",
+    "title": "Basic Principles of Physics II (Optics, Electricity & Magnetism)",
+    "level": "100",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY122",
+    "title": "Basic Principles of Physics III ( Waves, Fluid Mechanics, Properties of matter)",
+    "level": "100",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY123",
+    "title": "Experimental Physics I",
+    "level": "100",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY206",
+    "title": "Experimental Physics II",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY211",
+    "title": "Classical Mechanics 1",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY212",
+    "title": "Optics, Waves & Vibrations",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY213",
+    "title": "Electromagnetism 1",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY214",
+    "title": "Physics Methodology 1",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY215",
+    "title": "Experimental Physics 1",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY216",
+    "title": "Semi-Conductor Devices",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY217",
+    "title": "Electric Circuit",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY221",
+    "title": "Introduction to Modern Physics",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY222",
+    "title": "Thermodynamics",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY223",
+    "title": "Mathematical Methods for Physics I",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY224",
+    "title": "Classical Mechanics II (Pre PHY 211)",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY225",
+    "title": "Experimental Physics 11",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY226",
+    "title": "Research Methodology in Physics",
+    "level": "200",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY307",
+    "title": "Experimental Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY311",
+    "title": "Nuclear Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY312",
+    "title": "Mathematical Method for Physics II",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY313",
+    "title": "Solid Earth Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY314",
+    "title": "Physics Methodology 11",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY315",
+    "title": "Statistical Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY316",
+    "title": "Acoustics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY317",
+    "title": "Experimental Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY318",
+    "title": "Seminars",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY321",
+    "title": "Quantum Mechanics 1",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY322",
+    "title": "Electronics 11",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY323",
+    "title": "Numerical Computations in Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY324",
+    "title": "Electromagnetism 11 (Pre. PHY 213)",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY325",
+    "title": "Workshop Practice",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY326",
+    "title": "Radiation and Health Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY327",
+    "title": "Physics of The Lower Atmosphere",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY328",
+    "title": "Solid Earth Physics",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY329",
+    "title": "Physics of Lower Atmosphere",
+    "level": "300",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY409",
+    "title": "Experimental Physics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY420",
+    "title": "Practical Physics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY421",
+    "title": "Applied Geophysics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY422",
+    "title": "Solid State Physics II",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY423",
+    "title": "Electronics communication Theory",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY424",
+    "title": "Special Relativity",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY425",
+    "title": "Microwave Physics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY426",
+    "title": "Quantum Mechanics 11",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY427",
+    "title": "Ionospheric & Space Physics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  },
+  {
+    "code": "PHY428",
+    "title": "Ionospheric Physics",
+    "level": "400",
+    "department": "Department of Physics",
+    "departmentCode": "PHY",
+    "credits": 3
+  }
+]

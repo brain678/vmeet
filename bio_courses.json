@@ -1,0 +1,266 @@
+[
+  {
+    "code": "BIO111",
+    "title": "GENERAL BIOLOGY I",
+    "level": "100",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO112",
+    "title": "Invertebrates",
+    "level": "100",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO121",
+    "title": "GENERAL BIOLOGY II",
+    "level": "100",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO211",
+    "title": "SEEDLESS PLANTS",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO212",
+    "title": "Animal Behaviour",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO213",
+    "title": "Plant and Animal Ecology",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO214",
+    "title": "Basic Parasitology",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO215",
+    "title": "VERTEBRATES",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO221",
+    "title": "GENETICS I",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO222",
+    "title": "Higher Plants",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO223",
+    "title": "BIOLOGY METHODS",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO224",
+    "title": "INTRODUCTORY MICROBIOLOGY",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO225",
+    "title": "Basic Organic Chemistry",
+    "level": "200",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO311",
+    "title": "Plant Physiology",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO312",
+    "title": "Embryology",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO313",
+    "title": "GENETICS II",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO314",
+    "title": "STATISTICS FOR BIOLOGICAL SCIENCE",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO315",
+    "title": "Basic Hydrobiology and Fisheries",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO316",
+    "title": "RESEARCH METHODOLOGY",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO317",
+    "title": "Histology",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO321",
+    "title": "ANIMAL PHYSIOLOGY",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO322",
+    "title": "ENTOMOLOGY",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO323",
+    "title": "Cell and Molecular Biology",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO324",
+    "title": "Biological Techniques",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO325",
+    "title": "Plant Pathology",
+    "level": "300",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO421",
+    "title": "Advanced Taxonomy of Angiosperms",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO422",
+    "title": "Evolution",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO423",
+    "title": "Economic Botany",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO424",
+    "title": "Bacteriology",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO425",
+    "title": "Economic Zoology",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO426",
+    "title": "Mycology",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO427",
+    "title": "Introductory Biotechnology",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  },
+  {
+    "code": "BIO428",
+    "title": "Seminar",
+    "level": "400",
+    "department": "Department of Biological Sciences",
+    "departmentCode": "BIO",
+    "credits": 3
+  }
+]

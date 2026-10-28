@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ChangeEvent, type FormEvent } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader';
@@ -14,15 +14,27 @@ interface FormData {
   matricNumber: string;
   department: string;
   level: string;
+  courses?: string[];
+}
+
+interface Course {
+  _id: string;
+  code: string;
+  title: string;
+  credits?: number;
 }
 
 interface UserData {
   role: string;
   isRegistered: boolean;
+  roleData?: { registrationComplete?: boolean };
   matricNumber?: string;
   department?: string;
   level?: string;
   name?: string;
+  courses?: Array<string | Course>;
+  lastProfilePicUpdate?: string; // ISO date string from backend
+  lastCoursesUpdate?: string; // ISO date string from backend
 }
 
 export default function ProfilePage() {
@@ -34,7 +46,6 @@ export default function ProfilePage() {
   
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string>('');
-  const [studentData, setStudentData] = useState<UserData | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -42,7 +53,18 @@ export default function ProfilePage() {
     matricNumber: '',
     department: '',
     level: '',
+    courses: [],
   });
+  const [canUpdatePhoto, setCanUpdatePhoto] = useState(true);
+  const [lastProfilePicUpdate, setLastProfilePicUpdate] = useState<string | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [canUpdateCourses, setCanUpdateCourses] = useState(true);
+  const [lastCoursesUpdate, setLastCoursesUpdate] = useState<string | null>(null);
+  const [departmentId, setDepartmentId] = useState<string>('');
+  const [levelId, setLevelId] = useState<string>('');
+  const [departments, setDepartmentsList] = useState<any[]>([]);
+  const [levels, setLevelsList] = useState<any[]>([]);
+  const [loadingCourses, setLoadingCourses] = useState<boolean>(false);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -54,14 +76,43 @@ export default function ProfilePage() {
           throw new Error('Failed to load profile data');
         }
 
-        const userData = await response.json();
-        setStudentData(userData);
+        const userData: UserData = await response.json();
+
+        // Check last profile pic update
+        if (userData.lastProfilePicUpdate) {
+          setLastProfilePicUpdate(userData.lastProfilePicUpdate);
+          const lastUpdate = new Date(userData.lastProfilePicUpdate);
+          const now = new Date();
+          const diffDays = (now.getTime() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24);
+          if (diffDays < 30) {
+            setCanUpdatePhoto(false);
+          } else {
+            setCanUpdatePhoto(true);
+          }
+        } else {
+          setCanUpdatePhoto(true);
+        }
+
+        // Check last courses update
+        if (userData.lastCoursesUpdate) {
+          setLastCoursesUpdate(userData.lastCoursesUpdate);
+          const lastUpdate = new Date(userData.lastCoursesUpdate);
+          const now = new Date();
+          const diffDays = (now.getTime() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24);
+          if (diffDays < 30) {
+            setCanUpdateCourses(false);
+          } else {
+            setCanUpdateCourses(true);
+          }
+        } else {
+          setCanUpdateCourses(true);
+        }
 
         if (userData.role === 'student') {
-          const is_registered = userData.isRegistered;
-          const registration_complete = userData.roleData?.registrationComplete;
+          const isRegistered = userData.isRegistered;
+          const registrationComplete = userData.roleData?.registrationComplete;
 
-          if (!is_registered || !registration_complete) {
+          if (!isRegistered || !registrationComplete) {
             toast({
               title: "Registration Required",
               description: "Please complete your student registration first. You need to provide:\n- Face Photo\n- Full Name\n- Matric Number\n- Department\n- Level",
@@ -72,11 +123,25 @@ export default function ProfilePage() {
           }
 
           // If properly registered, set form data
+          console.log('User data loaded:', userData);
+          console.log('Courses from userData:', userData.courses);
+          
+          // Extract course IDs from the courses array (which contains full course objects)
+          const courseIds = userData.courses?.map((course) =>
+            typeof course === 'string' ? course : course._id
+          ) || [];
+          
+          // Initialize courses state with the full course data from backend
+          if (userData.courses && Array.isArray(userData.courses) && userData.courses.length > 0) {
+            setCourses(userData.courses.filter((course): course is Course => typeof course !== 'string'));
+          }
+          
           setFormData({
             matricNumber: userData.matricNumber || '',
             department: userData.department || '',
             level: userData.level || '',
             name: userData.name || (user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : ''),
+            courses: courseIds,
           });
         } else {
           // If not a student, show error and redirect
@@ -102,7 +167,86 @@ export default function ProfilePage() {
     loadProfile();
   }, [user?.id, router, user?.firstName, user?.lastName, toast]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Fetch departments and levels on mount
+  useEffect(() => {
+    const fetchDepartmentsAndLevels = async () => {
+      try {
+        const deptResponse = await fetch(`${BACKEND_URL}/departments?limit=1000`);
+        const deptData = await deptResponse.json();
+        if (deptData.data) {
+          setDepartmentsList(deptData.data);
+        }
+
+        const levelResponse = await fetch(`${BACKEND_URL}/levels?limit=1000`);
+        const levelData = await levelResponse.json();
+        if (levelData.data) {
+          setLevelsList(levelData.data);
+        }
+      } catch (error) {
+        console.error('Error fetching departments/levels:', error);
+      }
+    };
+
+    fetchDepartmentsAndLevels();
+  }, []);
+
+  // Update department ID when department in form data changes
+  useEffect(() => {
+    if (formData.department) {
+      const selectedDept = departments.find(d => d.name === formData.department);
+      if (selectedDept) {
+        setDepartmentId(selectedDept._id || selectedDept.id);
+      }
+    } else {
+      setDepartmentId('');
+    }
+  }, [formData.department, departments]);
+
+  // Update level ID when level in form data changes
+  useEffect(() => {
+    if (formData.level) {
+      const selectedLevel = levels.find(l => String(l.code) === formData.level);
+      if (selectedLevel) {
+        setLevelId(selectedLevel._id || selectedLevel.id);
+      }
+    } else {
+      setLevelId('');
+    }
+  }, [formData.level, levels]);
+
+  // Fetch courses when department and level IDs are available
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (!departmentId || !levelId) {
+        setCourses([]);
+        return;
+      }
+
+      try {
+        setLoadingCourses(true);
+        const coursesResponse = await fetch(
+          `${BACKEND_URL}/courses?department_id=${departmentId}&level_id=${levelId}&limit=1000`
+        );
+        const coursesData = await coursesResponse.json();
+        
+        if (coursesData.data && Array.isArray(coursesData.data)) {
+          console.log('Fetched courses from API:', coursesData.data);
+          setCourses(coursesData.data);
+        } else {
+          setCourses([]);
+        }
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+        setCourses([]);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+
+    fetchCourses();
+  }, [departmentId, levelId]);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       if (!selectedFile.type.startsWith('image/')) {
@@ -117,7 +261,7 @@ export default function ProfilePage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!user?.id) {
@@ -176,6 +320,7 @@ export default function ProfilePage() {
           department: formData.department,
           level: formData.level,
           name: formData.name,
+          courses: formData.courses || [],
           isUpdate: true
         }),
       });
@@ -264,39 +409,51 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#0F1828]">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-[#F5EFFB] via-white to-[#F1EAFF] p-4">
         <Loader />
-        <p className="mt-4 text-gray-300">Loading your profile...</p>
+        <p className="mt-4 text-sm text-[#5F526A]">Loading your profile...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0F1828] p-4">
-      <div className="mx-auto max-w-md">
-        <h1 className="mb-8 text-center text-2xl font-bold text-white">
-          Update Your Profile
-        </h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <main className="min-h-screen bg-gradient-to-br from-[#F5EFFB] via-white to-[#F1EAFF] px-4 pb-10 pt-16 text-[#18121F] sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-[1180px] space-y-6">
+        <header className="relative overflow-hidden rounded-[28px] bg-gradient-to-r from-[#7630B8] via-[#8234C6] to-[#A14EDD] px-6 py-7 text-white shadow-[0_12px_25px_rgba(99,44,148,0.22)] sm:rounded-[40px] sm:px-10 sm:py-9">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#6E27AE]/70 via-transparent to-[#A14EDD]/50" />
+          <div className="relative z-10 max-w-2xl">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-white/75">Your account</p>
+            <h1 className="text-3xl font-semibold sm:text-[38px]">Update your profile</h1>
+            <p className="mt-2 max-w-xl text-sm text-white/85 sm:text-base">Manage your student information, courses, and face photo.</p>
+          </div>
+        </header>
+        <form onSubmit={handleSubmit} className="grid gap-5 lg:grid-cols-[0.85fr_1.5fr]">
           {/* Face Image Section */}
-          <div className="rounded-lg bg-[#1B2B44] p-6">
-            <h2 className="mb-4 text-lg font-semibold text-white">Face Photo</h2>
-            
+          <section className="h-fit rounded-2xl border border-[#E7DDF0] bg-white p-5 shadow-sm sm:p-6">
+            <h2 className="mb-1 text-lg font-semibold text-[#2D1A3A]">Face photo</h2>
+            <p className="mb-5 text-sm text-[#6B6172]">Use a clear photo so your face can be recognized.</p>
+            {!canUpdatePhoto && lastProfilePicUpdate && (
+              <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-center text-sm text-amber-800">
+                You can only update your profile picture once every 30 days.<br />
+                Last updated: {new Date(lastProfilePicUpdate).toLocaleDateString()}<br />
+                Please try again after 30 days from your last update.
+              </div>
+            )}
             {showCamera ? (
               <div className="relative">
                 <video
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="w-full rounded-lg"
+                  className="w-full rounded-xl border border-[#E7DDF0] bg-slate-950"
                 />
                 <canvas ref={canvasRef} className="hidden" />
-                <div className="mt-4 flex justify-center space-x-4">
+                <div className="mt-4 flex flex-wrap justify-center gap-3">
                   <Button
                     type="button"
                     onClick={capturePhoto}
-                    className="bg-blue-500 hover:bg-blue-600"
+                    className="bg-[#8437C8] text-white hover:bg-[#6E27AE]"
+                    disabled={!canUpdatePhoto}
                   >
                     Capture
                   </Button>
@@ -316,7 +473,7 @@ export default function ProfilePage() {
                     <img
                       src={URL.createObjectURL(file)}
                       alt="Preview"
-                      className="h-48 w-full rounded-lg object-cover"
+                      className="h-56 w-full rounded-xl border border-[#E7DDF0] object-cover"
                     />
                     <Button
                       type="button"
@@ -332,7 +489,8 @@ export default function ProfilePage() {
                     <Button
                       type="button"
                       onClick={startCamera}
-                      className="w-full bg-blue-500 hover:bg-blue-600"
+                      className="w-full bg-[#8437C8] text-white hover:bg-[#6E27AE]"
+                      disabled={!canUpdatePhoto}
                     >
                       Take Photo
                     </Button>
@@ -343,12 +501,14 @@ export default function ProfilePage() {
                         onChange={handleFileChange}
                         className="hidden"
                         id="file-upload"
+                        disabled={!canUpdatePhoto}
                       />
                       <Button
                         type="button"
                         onClick={() => document.getElementById('file-upload')?.click()}
                         variant="outline"
-                        className="w-full border-gray-600 text-gray-300"
+                        className="w-full border-[#DCC9EA] bg-white text-[#6E27AE] hover:bg-[#F6F0FB]"
+                        disabled={!canUpdatePhoto}
                       >
                         Upload Photo
                       </Button>
@@ -357,62 +517,163 @@ export default function ProfilePage() {
                 )}
               </div>
             )}
-          </div>
+          </section>
 
           {/* Profile Information */}
-          <div className="rounded-lg bg-[#1B2B44] p-6 space-y-4">
-            <h2 className="mb-4 text-lg font-semibold text-white">Profile Information</h2>
+          <section className="space-y-5 rounded-2xl border border-[#E7DDF0] bg-white p-5 shadow-sm sm:p-6">
+            <div>
+              <h2 className="text-lg font-semibold text-[#2D1A3A]">Profile information</h2>
+              <p className="mt-1 text-sm text-[#6B6172]">Review your details and manage your enrolled courses.</p>
+            </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-300">Full Name</label>
+              <label className="block text-sm font-medium text-[#5F526A]">Full name</label>
               <Input
                 type="text"
                 value={formData.name}
                 readOnly
-                className="mt-1 bg-[#0F1828] border-gray-600 text-gray-400 cursor-not-allowed"
+                className="mt-1 border-[#E7DDF0] bg-[#F8F5FB] text-[#6B6172] disabled:opacity-100"
                 placeholder="Enter your full name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Matric Number</label>
+              <label className="block text-sm font-medium text-[#5F526A]">Matric number</label>
               <Input
                 type="text"
                 value={formData.matricNumber}
                 readOnly
-                className="mt-1 bg-[#0F1828] border-gray-600 text-gray-400 cursor-not-allowed"
+                className="mt-1 border-[#E7DDF0] bg-[#F8F5FB] text-[#6B6172] disabled:opacity-100"
                 placeholder="Enter your matric number"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Department</label>
+              <label className="block text-sm font-medium text-[#5F526A]">Department</label>
               <Input
                 type="text"
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                className="mt-1 bg-[#0F1828] border-gray-600 text-white"
+                className="mt-1 border-[#E7DDF0] bg-white text-[#2D1A3A] focus-visible:ring-[#8437C8]"
                 placeholder="Enter your department"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300">Level</label>
+              <label className="block text-sm font-medium text-[#5F526A]">Level</label>
               <Input
                 type="text"
                 value={formData.level}
                 onChange={(e) => setFormData({ ...formData, level: e.target.value })}
-                className="mt-1 bg-[#0F1828] border-gray-600 text-white"
+                className="mt-1 border-[#E7DDF0] bg-white text-[#2D1A3A] focus-visible:ring-[#8437C8]"
                 placeholder="Enter your level"
               />
             </div>
-          </div>
+
+            {/* Courses Section */}
+            <div className="border-t border-[#EEE6F4] pt-5">
+              <label className="mb-3 block text-sm font-semibold text-[#5F526A]">Your courses ({formData.courses?.length || 0})</label>
+              {!canUpdateCourses && lastCoursesUpdate && (
+                <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-3 text-center text-sm text-amber-800">
+                  You can only update your courses once every 30 days.<br />
+                  Last updated: {new Date(lastCoursesUpdate).toLocaleDateString()}<br />
+                  Please try again after 30 days from your last update.
+                </div>
+              )}
+              {loadingCourses ? (
+                <div className="py-4 text-center">
+                  <p className="text-sm text-[#6B6172]">Loading courses...</p>
+                </div>
+              ) : (
+                <>
+                  {/* Selected Courses Display */}
+                  {formData.courses && formData.courses.length > 0 && (
+                    <div className="mb-6">
+                      <p className="mb-3 text-xs font-medium text-[#6B6172]">Selected courses ({formData.courses.length})</p>
+                      <div className="flex flex-wrap gap-3">
+                        {courses
+                          .filter(c => formData.courses?.includes(c._id))
+                          .map(course => (
+                            <div
+                              key={`selected-${course._id}`}
+                              onClick={() => {
+                                if (canUpdateCourses) {
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    courses: (prev.courses || []).filter(id => id !== course._id)
+                                  }));
+                                }
+                              }}
+                              className={`group relative ${!canUpdateCourses ? 'cursor-not-allowed opacity-60' : ''}`}
+                            >
+                              <div className="rounded-full bg-gradient-to-r from-[#8437C8] to-[#A14EDD] p-px">
+                                <div className={`flex items-center gap-2 rounded-full bg-white px-4 py-2 transition-colors ${canUpdateCourses ? 'cursor-pointer hover:bg-[#F6F0FB]' : ''}`}>
+                                  <span className="text-sm font-medium text-[#6E27AE]">{course.code}</span>
+                                  {canUpdateCourses && (
+                                    <span className="text-xl text-[#8437C8] transition-colors group-hover:text-red-500">×</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Available Courses */}
+                  {courses.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-[#DCC9EA] bg-[#FBF9FD] py-10 text-center">
+                      <div className="mb-3 text-4xl">📚</div>
+                      <p className="text-[#5F526A]">No courses available for this department and level</p>
+                      {formData.courses && formData.courses.length > 0 && (
+                        <p className="mt-2 text-sm text-[#6B6172]">Your previously selected courses are still saved</p>
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="mb-3 text-xs font-medium text-[#6B6172]">Available courses</p>
+                      <div className={`max-h-80 space-y-2 overflow-y-auto pr-2 ${!canUpdateCourses ? 'pointer-events-none opacity-60' : ''}`}>
+                        {courses
+                          .filter(c => !formData.courses?.includes(c._id))
+                          .map((course) => (
+                            <div
+                              key={`available-${course._id}`}
+                              onClick={() => {
+                                if (canUpdateCourses) {
+                                  setFormData(prev => ({
+                                    ...prev,
+                                    courses: [...(prev.courses || []), course._id]
+                                  }));
+                                }
+                              }}
+                              className={`group rounded-lg border border-[#E7DDF0] bg-[#FBF9FD] p-3 transition-all ${canUpdateCourses ? 'cursor-pointer hover:border-[#C7A6E2] hover:bg-[#F6F0FB]' : ''}`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <div className="text-sm font-semibold text-[#4F3D5D] transition-colors group-hover:text-[#6E27AE]">
+                                    {course.code}
+                                  </div>
+                                  <div className="text-xs text-[#6B6172]">{course.title}</div>
+                                </div>
+                                {canUpdateCourses && (
+                                  <div className="text-xl text-[#8437C8] transition-colors">+</div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </section>
 
           {message && (
-            <div className={`text-center p-2 rounded ${
-              message.startsWith('✅') ? 'bg-green-100 text-green-800' : 
-              message.startsWith('❌') ? 'bg-red-100 text-red-800' : 
-              'bg-blue-100 text-blue-800'
+            <div role="status" className={`rounded-lg border p-3 text-center text-sm lg:col-span-2 ${
+              message.startsWith('✅') ? 'border-green-200 bg-green-50 text-green-800' :
+              message.startsWith('❌') ? 'border-red-200 bg-red-50 text-red-800' :
+              'border-[#DCC9EA] bg-[#F6F0FB] text-[#6E27AE]'
             }`}>
               {message}
             </div>
@@ -420,13 +681,13 @@ export default function ProfilePage() {
 
           <Button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600"
+            className="w-full bg-[#8437C8] text-white hover:bg-[#6E27AE] lg:col-span-2"
             disabled={loading}
           >
             {loading ? <Loader /> : 'Update Profile'}
           </Button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

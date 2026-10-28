@@ -1,0 +1,75 @@
+/* Custom Stream Chat UI Styles */
+.str-chat__theme-dark {
+  background: transparent !important;
+}
+
+.str-chat__channel-header {
+  background: #232526 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #333 !important;
+  border-radius: 1rem 1rem 0 0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+
+/* Chat message list background */
+.str-chat__message-list {
+  background: linear-gradient(135deg, #232526 0%, #2a5298 100%) !important;
+  padding: 0.5rem 1rem !important;
+}
+
+/* Other users' messages */
+.str-chat__message {
+  border-radius: 1.2rem !important;
+  margin-bottom: 0.5rem !important;
+  background: rgba(255,255,255,0.10) !important;
+  color: #e0e6ed !important;
+  box-shadow: 0 2px 8px rgba(30,60,114,0.10);
+  border: 1px solid rgba(42,82,152,0.10) !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* My messages */
+.str-chat__message--me {
+  background: linear-gradient(90deg, #2a5298 0%, #1e3c72 100%) !important;
+  color: #fff !important;
+  align-self: flex-end !important;
+  border: 1px solid #2a5298 !important;
+  box-shadow: 0 2px 12px rgba(42,82,152,0.18);
+}
+
+/* Message hover effect */
+.str-chat__message:hover {
+  background: rgba(42,82,152,0.18) !important;
+  color: #fff !important;
+}
+
+/* Message actions (edit, delete, react) */
+.str-chat__message-simple__actions {
+  color: #b3c7f9 !important;
+}
+
+.str-chat__message-input {
+  background: #232526 !important;
+  border-radius: 0 0 1rem 1rem !important;
+  border-top: 1px solid #333 !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #2a5298 #232526;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: #232526;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2a5298;
+  border-radius: 4px;
+}
+
+.custom-message-input .str-chat__message-input {
+  background: #232526 !important;
+  color: #fff !important;
+}

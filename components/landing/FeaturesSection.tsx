@@ -2,134 +2,81 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HiOutlineVideoCamera, HiOutlineDocumentReport } from 'react-icons/hi';
-import { IoStatsChartOutline } from 'react-icons/io5';
-import { BsCalendarCheck, BsShieldCheck } from 'react-icons/bs';
-import Image from 'next/image';
-import Link from 'next/link';
+import { HiOutlineVideoCamera } from 'react-icons/hi';
+import { FiUserCheck, FiCalendar, FiBarChart2, FiShield } from 'react-icons/fi';
 
 export const FeaturesSection = () => {
   const features = [
     {
-      icon: <HiOutlineVideoCamera className="w-8 h-8" />,
-      title: "HD Video Conferencing",
-      description: "Crystal clear video and audio quality for seamless virtual classroom experience",
-      gradient: "from-blue-500 to-cyan-500",
-      demo: "/images/learning-feature-1.svg"
+      icon: <HiOutlineVideoCamera className="h-6 w-6 text-primary" />,
+      title: 'HD Video Conferencing',
+      description: 'Reliable audio and video for lectures, group work, and presentations.',
     },
     {
-      icon: <BsShieldCheck className="w-8 h-8" />,
-      title: "AI-Powered Attendance",
-      description: "Automated facial recognition and location-based tracking for accurate attendance monitoring",
-      gradient: "from-purple-500 to-pink-500",
-      demo: "/images/learning-feature-2.svg"
+      icon: <FiUserCheck className="h-6 w-6 text-primary" />,
+      title: 'AI-Powered Attendance',
+      description: 'Facial verification and location checks for secure, accurate sessions.',
     },
     {
-      icon: <IoStatsChartOutline className="w-8 h-8" />,
-      title: "Analytics Dashboard",
-      description: "Comprehensive insights into student engagement, attendance patterns, and class performance",
-      gradient: "from-orange-500 to-red-500",
-      demo: "/images/learning-feature-1.svg"
+      icon: <FiCalendar className="h-6 w-6 text-primary" />,
+      title: 'Smart Scheduling & Auto-Start',
+      description: 'Set sessions once and let VMeet handle the rest with automated timing.',
     },
     {
-      icon: <BsCalendarCheck className="w-8 h-8" />,
-      title: "Smart Scheduling",
-      description: "Effortless class scheduling with calendar integration and automated notifications",
-      gradient: "from-green-500 to-emerald-500",
-      demo: "/images/learning-feature-2.svg"
-    }
+      icon: <FiBarChart2 className="h-6 w-6 text-primary" />,
+      title: 'Analytics Dashboard',
+      description: 'See attendance, engagement, and session performance in one place.',
+    },
+    {
+      icon: <FiShield className="h-6 w-6 text-primary" />,
+      title: 'Secure Role-Based Access',
+      description: 'Distinct experiences for students, lecturers, and administrators.',
+    },
   ];
 
   return (
-    <section className="relative py-32 bg-dark-2" id="features">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-3/50 to-dark-2" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <motion.div
+    <section className="bg-sky-3 py-24" id="features">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="text-center">
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
-                Powerful Features
-              </span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Experience the next generation of virtual learning with our comprehensive suite of features
-            </p>
-          </motion.div>
+            Core Platform Features
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-4 text-base leading-7 text-slate-600"
+          >
+            Everything a university needs for modern hybrid classroom management, attendance, video, and reporting.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {features.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              whileHover={{ y: -5 }}
-              className="group relative bg-dark-1 rounded-2xl overflow-hidden"
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.1 }}
+              whileHover={{ y: -6 }}
+              className="rounded-3xl border border-primary/20 bg-sky-1 p-7 shadow-sm transition-shadow duration-200 hover:shadow-md"
             >
-              {/* Gradient Border */}
-              <div className="absolute inset-0 p-0.5">
-                <div className={`h-full w-full bg-gradient-to-br ${feature.gradient} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-2 shadow-sm">
+                {feature.icon}
               </div>
-              
-              {/* Content */}
-              <div className="relative bg-dark-1 rounded-2xl p-8">
-                <div className="flex items-start gap-6 mb-6">
-                  <div className={`p-4 rounded-xl bg-gradient-to-br ${feature.gradient} bg-opacity-10`}>
-                    {feature.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-semibold text-white mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Feature Demo/Screenshot */}
-                <div className="relative h-48 rounded-xl overflow-hidden">
-                  <Image
-                    src={feature.demo}
-                    alt={feature.title}
-                    fill
-                    className="object-contain transform group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-tr ${feature.gradient} opacity-20 group-hover:opacity-30 transition-opacity duration-300`} />
-                </div>
-              </div>
+              <h3 className="mt-6 text-xl font-semibold text-slate-900">{feature.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{feature.description}</p>
             </motion.div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-20"
-        >
-          <Link 
-            href="/sign-up"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary rounded-xl px-8 py-4 text-lg font-semibold text-white shadow-xl hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-1"
-          >
-            Try All Features Free
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

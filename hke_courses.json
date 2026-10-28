@@ -1,0 +1,714 @@
+[
+  {
+    "code": "HED111",
+    "title": "Health And Wellness Of The University Students",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED121",
+    "title": "Foundation Of Health Education",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED122",
+    "title": "Concepts Of Health Education",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED123",
+    "title": "PERSONAL HEALTH",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED124",
+    "title": "Food & nutrition education",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE101",
+    "title": "PHYSICAL FITNESS FOR HUMAN KINETICS & HEALTH EDUCATION I",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE111",
+    "title": "First Aid and safety Education",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE121",
+    "title": "THEORY AND TECHNIQUES OF SOCCER",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE122",
+    "title": "THEORY AND TECHNIQUES OF BASKETBALL",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE123",
+    "title": "HISTORY AND PHILOSOPHY OF PHYSICAL EDUCATION",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE124",
+    "title": "Improvisation in physical education and sports",
+    "level": "100",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED211",
+    "title": "Communicable and Non communicable disease",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED212",
+    "title": "School Health Education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED213",
+    "title": "Foods and Nutrition",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED214",
+    "title": "Environmental health education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED215",
+    "title": "Environmental Health Education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED221",
+    "title": "Mental and Social Health",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED222",
+    "title": "Communicable and Non communicable disease II",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED223",
+    "title": "Organization and administration of health education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED224",
+    "title": "Organisation and Administration Of Health Education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED225",
+    "title": "Consumer Health Education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED226",
+    "title": "History and Philosophy of Health Education",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE201",
+    "title": "PHYSICAL FITNESS FOR HUMAN KINETICS & HEALTH EDUCATION II",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE211",
+    "title": "THEORY AND TECHNIQUES OF HANDBALL",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE212",
+    "title": "THEORY AND TECHNIQUES OF VOLLEYBALL",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE213",
+    "title": "THEORY AND TECHNIQUES OF ATHLETICS",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE214",
+    "title": "Coaching And Officiating Of Sports",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE215",
+    "title": "PSYCHOLOGY OF COACHING",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE216",
+    "title": "COACHING AND OFFICIATING OF SPORTS",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE221",
+    "title": "Theory & Tech Of Ball games 1( Volleyball, Basketball, Handball, Soccer,)",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE222",
+    "title": "THEORY AND TECHNIQUES OF TENNIS",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE223",
+    "title": "THEORY AND TECHNIQUES OF HOCKEY",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE224",
+    "title": "Introduction To Groundmanship",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE225",
+    "title": "First aid safety education, prevention and care of sport injury",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE226",
+    "title": "INTRODUCTION TO GROUNDSMANSHIP",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE227",
+    "title": "FIRST AID, SAFETY EDUCATION, PREVENTION AND CARE OF SPORTS INJURIES",
+    "level": "200",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED311",
+    "title": "Alcohol and Drug Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED312",
+    "title": "Public Health education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED313",
+    "title": "Methods and materials in health education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED314",
+    "title": "Accident, First Aid and Safety Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED315",
+    "title": "Research Methods in Health Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED316",
+    "title": "Practicum / field experience",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED317",
+    "title": "Measurement and Evaluation in Health Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED318",
+    "title": "Communication theory and change processes",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED321",
+    "title": "Family Life and Sex Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED322",
+    "title": "Social Processes and Communication theory in Health Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED323",
+    "title": "Seminar in Health Education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED324",
+    "title": "Occupational Health",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED325",
+    "title": "Health and Illness Behaviour",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED326",
+    "title": "Alternate Health Care Delivery System",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE301",
+    "title": "PHYSICAL FITNESS FOR HUMAN KINETICS & HEALTH EDUCATION III",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE311",
+    "title": "THEORY AND TECHNIQUES OF SWIMMING",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE312",
+    "title": "THEORY AND TECHNIQUES OF TABLE TENNIS",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE313",
+    "title": "Striking Games 1(Cricket, Hockey, Table Tennis, Tennis and Badminton)",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE314",
+    "title": "Curriculum development in physical education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE315",
+    "title": "Introduction to physiology of sports and exercise",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE316",
+    "title": "RESEARCH METHODOLOGY IN PHYSICAL EDUCATION",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE317",
+    "title": "Camping and leadership",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE318",
+    "title": "CAMPING AND LEADERSHIP PROGRAMME",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE321",
+    "title": "Striking Games 2 (Cricket, Hockey, Table Tennis, Tennis and Badminton)",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE322",
+    "title": "THEORY AND TECHNIQUES OF GYMNASTICS",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE323",
+    "title": "Test and measurement in physical education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE324",
+    "title": "TEST AND MEASUREMENT IN PHYSICAL EDUCATION",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE325",
+    "title": "Seminar in physical education",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE326",
+    "title": "SEMINAR IN PHYSICAL EDUCATION",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE327",
+    "title": "Introduction to Kinesiology",
+    "level": "300",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED421",
+    "title": "Ageing and Death Education",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED422",
+    "title": "Problems and Contemporary Issues in Health Education",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED423",
+    "title": "Health Agencies",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED424",
+    "title": "Demography and Population Education",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED425",
+    "title": "Comparative Health care System",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED426",
+    "title": "Health for A Typical Children",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HED429",
+    "title": "Research Projects",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE401",
+    "title": "PHYSICAL FITNESS FOR HUMAN KINETICS & HEALTH EDUCATION IV.",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE421",
+    "title": "ORGANISATION AND ADMINISTRATION OF SPORT AND PHYSICAL EDUCATION",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE422",
+    "title": "Organization and administration of physical education and sport",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE423",
+    "title": "Psychology of sports and motivation theories in sports",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE424",
+    "title": "Legal liabilities in physical education and sports",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE425",
+    "title": "SPORTS INSTITUTIONS",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE426",
+    "title": "INTRODUCTION TO EXERCISE BEHAVIOUR",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE427",
+    "title": "INTRODUCTION TO BEHAVIOUR DISORDER IN SPORT",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE428",
+    "title": "SOCIOLOGY OF LEISURE",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE429",
+    "title": "Final Year Project",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE430",
+    "title": "PSYCHOLOGY OF SPORT",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE431",
+    "title": "INTRODUCTION TO PHYSICAL CONDITIONING, EXERCISE AND HEALTH",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE432",
+    "title": "ANALYSIS OF HUMAN MOTION",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE433",
+    "title": "NUTRITONAL BASIS OF SPORTS",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE434",
+    "title": "EXERCISE AND TRAINING ADAPTATION",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  },
+  {
+    "code": "HKE435",
+    "title": "GENERAL SPORTS AND PHYSICAL FITNESS",
+    "level": "400",
+    "department": "Department of Human Kinetic and Sport Science",
+    "departmentCode": "HED/HKE",
+    "credits": 3
+  }
+]

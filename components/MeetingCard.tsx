@@ -16,6 +16,7 @@ interface MeetingCardProps {
   buttonText?: string;
   handleClick: () => void;
   link: string;
+  description?: string;
 }
 
 const MeetingCard = ({
@@ -27,19 +28,21 @@ const MeetingCard = ({
   handleClick,
   link,
   buttonText = "Join Meeting",
+  description,
 }: MeetingCardProps) => {
   const { toast } = useToast();
   const [copyError, setCopyError] = useState(false);
   const [imageError, setImageError] = useState<{ [key: string]: boolean }>({});
 
   return (
-    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[14px] bg-dark-1 px-4 sm:px-5 py-6 sm:py-8 xl:max-w-[568px] transition-transform hover:scale-[1.02] hover:shadow-lg">
+    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[22px] border border-[#E6D8F4] bg-white px-4 py-6 shadow-[0_8px_18px_rgba(71,38,96,0.08)] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_rgba(71,38,96,0.12)] sm:px-5 sm:py-8 xl:max-w-[568px]">
       <article className="flex flex-col gap-4 sm:gap-5">
-        <div className="relative w-7 h-7 sm:w-[28px] sm:h-[28px]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F3EAFD] text-[#6E27AE] shadow-sm sm:h-[44px] sm:w-[44px]">
           <Image 
             src={icon} 
             alt={title}
-            fill
+            width={22}
+            height={22}
             className="object-contain"
             onError={() => {
               toast({
@@ -52,14 +55,17 @@ const MeetingCard = ({
         </div>
         <div className="flex justify-between items-start">
           <div className="flex flex-col gap-2">
-            <h1 className="text-xl sm:text-2xl font-bold line-clamp-2">{title}</h1>
-            <p className="text-sm sm:text-base font-normal text-gray-300">{date}</p>
+            <h1 className="text-xl font-bold text-[#2D1A3A] line-clamp-2 sm:text-2xl">{title}</h1>
+            <p className="text-sm font-medium text-[#6B6171] sm:text-base">{date}</p>
+            {description && (
+              <p className="mt-1 text-xs leading-5 text-[#6B6171] sm:text-sm line-clamp-2">{description}</p>
+            )}
           </div>
         </div>
       </article>
 
-      <article className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 mt-4 sm:mt-0">
-        <div className="w-full sm:w-auto order-2 sm:order-1">
+      <article className="mt-4 flex flex-col items-center justify-between gap-4 sm:mt-0 sm:flex-row sm:gap-6">
+        <div className="order-2 w-full sm:order-1 sm:w-auto">
           <div className="flex justify-center sm:justify-start">
             {avatarImages.slice(0, 5).map((img: AvatarImage, index: number) => (
               <div
@@ -76,7 +82,7 @@ const MeetingCard = ({
                   width={40}
                   height={40}
                   className={cn(
-                    "rounded-full border-2 border-dark-1 transition-opacity",
+                    "rounded-full border-2 border-white transition-opacity",
                     imageError[img.url] ? "opacity-50" : "opacity-100"
                   )}
                   onError={() => {
@@ -87,23 +93,23 @@ const MeetingCard = ({
             ))}
             {avatarImages.length > 5 && (
               <div 
-                className="relative flex items-center justify-center rounded-full bg-blue-1 w-10 h-10 -ml-3 transition-transform duration-200 hover:-translate-y-1"
+                className="relative flex h-10 w-10 -ml-3 items-center justify-center rounded-full bg-[#E9D9FF] text-sm font-semibold text-[#5D2A86] transition-transform duration-200 hover:-translate-y-1"
                 style={{ zIndex: 0 }}
               >
-                <span className="text-sm text-white font-medium">+{avatarImages.length - 5}</span>
+                <span>+{avatarImages.length - 5}</span>
               </div>
             )}
           </div>
         </div>
 
         {!isPreviousMeeting && (
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto order-1 sm:order-2">
+          <div className="order-1 flex w-full flex-col gap-2 sm:order-2 sm:w-auto sm:flex-row">
             <Button 
               onClick={handleClick} 
               className={cn(
-                "rounded bg-blue-1 px-4 sm:px-6 py-2 w-full sm:w-auto",
-                "transition-all duration-200 hover:bg-blue-600 hover:shadow-md",
-                "disabled:bg-blue-800 disabled:cursor-not-allowed"
+                "w-full rounded-xl bg-[#6E27AE] px-4 py-2.5 text-sm font-semibold text-white sm:w-auto",
+                "transition-all duration-200 hover:bg-[#5D1F94] hover:shadow-md",
+                "disabled:bg-[#9E7FC9] disabled:cursor-not-allowed"
               )}
             >
               {buttonIcon1 && (
@@ -137,10 +143,10 @@ const MeetingCard = ({
                 }
               }}
               className={cn(
-                "bg-dark-4 px-4 sm:px-6 py-2 w-full sm:w-auto",
-                "transition-all duration-200 hover:bg-dark-3 hover:shadow-md",
-                "disabled:bg-dark-5 disabled:cursor-not-allowed",
-                { "bg-red-500/10 hover:bg-red-500/20": copyError }
+                "w-full rounded-xl border border-[#E6D8F4] bg-[#F7F1FF] px-4 py-2.5 text-sm font-semibold text-[#5D2A86] sm:w-auto",
+                "transition-all duration-200 hover:bg-[#F0E5FF] hover:shadow-md",
+                "disabled:cursor-not-allowed",
+                { "bg-red-500/10 text-red-600 hover:bg-red-500/15": copyError }
               )}
             >
               <Image

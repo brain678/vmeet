@@ -1,5 +1,27 @@
 uvicorn main:app --reload
 npm run dev
+
+
+
+student : rgakwd1157@minitts.net
+Tilerkush1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 XXdGkHkSP2iglEUz
 
 # Expose backend with a static HTTPS ngrok link

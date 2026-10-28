@@ -34,21 +34,19 @@ const MeetingModal = ({
 }: MeetingModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex w-full max-w-[520px] flex-col gap-6 border-none bg-dark-1 px-6 py-9 text-white">
+      <DialogContent className="flex max-h-[90vh] w-[calc(100%-2rem)] max-w-[520px] flex-col gap-6 overflow-y-auto rounded-[24px] border border-[#E8E0ED] bg-white px-5 py-7 text-[#2D1A3A] shadow-[0_20px_55px_rgba(45,27,74,0.2)] sm:rounded-[28px] sm:px-8 sm:py-9">
         <div className="flex flex-col gap-6">
           {image && (
             <div className="flex justify-center">
               <Image src={image} alt="checked" width={72} height={72} />
             </div>
           )}
-          <h1 className={cn("text-3xl font-bold leading-[42px]", className)}>
+          <h1 className={cn("pr-8 text-2xl font-semibold leading-tight text-[#2D1A3A] sm:text-3xl", className)}>
             {title}
           </h1>
           {children}
           <Button
-            className={
-              "bg-blue-1 focus-visible:ring-0 focus-visible:ring-offset-0"
-            }
+            className="h-11 w-full rounded-lg bg-[#8437C8] font-semibold text-white shadow-[0_6px_12px_rgba(132,55,200,0.2)] hover:bg-[#6E27AE] focus-visible:ring-2 focus-visible:ring-[#B98BDC] focus-visible:ring-offset-2"
             onClick={handleClick}
           >
             {buttonIcon && (
